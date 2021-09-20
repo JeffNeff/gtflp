@@ -32,9 +32,11 @@ pod logs in a single window.
 
 ## How to use it
 
-1. Clone this repo
+1. Clone this repo, or download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases/tag/v0.1) 
 
     git clone https://github.com/JeffNeff/gtflp.git
+
+
 
 1. Update line 41 of file [release.yaml](./release.yaml) with the correct namespace
 

@@ -1,0 +1,39 @@
+name: Create Cluster
+
+on: push
+
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.2.0
+        
+      - name: Run kubectl create ns demo
+        run: kubectl create ns demo
+        
+      - name: Git clone kn plugin
+        run: git clone https://github.com/JeffNeff/knative-tutorial.git
+    
+      - name: ./install-serving
+        run:  ./knative-tutorial/setup/install-serving
+        
+      - name: ./install-eventing
+        run:  ./knative-tutorial/setup/install-eventing
+        
+      - name: kubectl label ns demo eventing.knative.dev/injection=enabled
+        run:  kubectl label ns demo eventing.knative.dev/injection=enabled
+        
+      - name: kubectl -n demo apply -f release.yaml
+        run: kubectl -n demo apply -f release.yaml
+
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
+
+      - name:  kubectl -n demo get ksvc
+        run: kubectl -n demo get ksvc
+
+

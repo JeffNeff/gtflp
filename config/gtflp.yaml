@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gtflp
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gtflp
+rules:
+  - apiGroups:
+      - serving.knative.dev
+      - metrics.k8s.io
+      - extensions
+      - apps
+      - eventing.knative.dev
+      - ""
+    resources:
+      - "pods/log" 
+      - "events" 
+      - "nodes" 
+      - "pods" 
+      - "deployments" 
+      - "replicasets" 
+    verbs:
+      - get
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gtflp
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gtflp
+subjects:
+  - kind: ServiceAccount
+    name: gtflp
+    # UPDATE THIS TO MATCH YOUR NAMESPACE:
+    namespace: demo
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: gtflp
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "1"
+    spec:
+      serviceAccountName: gtflp
+      containers:
+        - image: ko://github.com/JeffNeff/gtflp/cmd/gtflp/
+

@@ -86,7 +86,6 @@ Update line 41 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct names
 
     ko -n <ns> apply -f config/
 
-
 **Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the ui. 
 If you want to show logs from the `gtflp` pod, then chagne the name of the deployment to something else. 
 

@@ -36,6 +36,8 @@ pod logs in a single window.
 
     git clone https://github.com/JeffNeff/gtflp.git
 
+Or download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases/tag/v0.1) 
+
 1. Update line 41 of file [release.yaml](./release.yaml) with the correct namespace
 
 1. apply the manifest:

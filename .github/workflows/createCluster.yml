@@ -8,7 +8,7 @@ jobs:
   create-cluster:
     runs-on: ubuntu-latest
     env:
-      KO_DOCKER_REPO: docker.io/jeffthenaef
+      KO_DOCKER_REPO: docker.io/tmjeff
     steps:          
       - name: checkout
         uses: actions/checkout@v2
@@ -31,8 +31,8 @@ jobs:
       - name: kubectl label ns demo eventing.knative.dev/injection=enabled
         run:  kubectl label ns demo eventing.knative.dev/injection=enabled
 
-      - name: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: docker login -u tmjeff -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: docker login -u tmjeff -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: apply release manifest
         run: kubectl -n demo apply -f release.yaml

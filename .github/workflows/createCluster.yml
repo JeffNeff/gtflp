@@ -8,11 +8,6 @@ jobs:
     env:
       KO_DOCKER_REPO: docker.io/jeffthenaef
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.2.0
-
       - name: Set up Go 
         uses: actions/setup-go@v2
         with:
@@ -21,6 +16,13 @@ jobs:
       - name: Setup ko
         run: |
           go get github.com/google/ko/cmd/ko
+          
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.2.0
+
+
         
       - name: Run kubectl create ns demo
         run: kubectl create ns demo

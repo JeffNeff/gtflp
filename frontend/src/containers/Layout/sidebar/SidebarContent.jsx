@@ -17,6 +17,7 @@ const SidebarContent = ({ onClick }) => {
         <SidebarCategory title="Tools" icon="diamond">
           <SidebarLink title="Log Scanner" route="/LogScanner" onClick={handleHideSidebar} />
           <SidebarLink title="Event Viewer" route="/EventViewer" onClick={handleHideSidebar} />
+          <SidebarLink title="Event Injection" route="/EventInjection" onClick={handleHideSidebar} />
           {/* <SidebarLink title="Weather Xt" route="/pages/WeatherXt" onClick={handleHideSidebar} /> */}
         </SidebarCategory>
       </ul>

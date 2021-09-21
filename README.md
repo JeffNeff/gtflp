@@ -55,7 +55,6 @@ pod logs in a single window.
   
 1. Open the url in your browser.
 
-
 ## Development
 
 ### Frontend

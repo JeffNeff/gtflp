@@ -21,7 +21,7 @@ const Layout = () => {
   };
 
   return (
-    <div className={layoutClass}>
+    <div className={layoutClass} >\
       <Topbar
         changeMobileSidebarVisibility={changeMobileSidebarVisibility}
         changeSidebarVisibility={changeSidebarVisibility}

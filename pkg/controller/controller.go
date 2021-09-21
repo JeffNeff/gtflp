@@ -93,7 +93,6 @@ func returnNamespace() (string, error) {
 		fmt.Println("Error reading file:", err)
 		return "", err
 	}
-	fmt.Printf("found namespace %v ", string(dat))
 	s := string(dat)
 	return s, nil
 }

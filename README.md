@@ -12,12 +12,12 @@
 `gtfp` is a tool for debugging pods and testing cloudevents.
 
 Capabilities:
-* Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor
+* Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor
 pod logs in a single window. 
 
-* View Cloudevents 
+* View Cloudevents : View events that are sent directly to the `gtflp` deployment, or via configured triggers.
 
-* (Coming soon) Inject Cloudevents 
+* Inject Cloudevents : Inject events directly into pods, or into brokers within the namespace. 
 
 ![](./img/ls.png)
 

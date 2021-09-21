@@ -10,7 +10,7 @@
 ## What it is
 
 
-Tired of `kubectl -n <ns> logs <pod> user-container`ing all the time? 
+Tired of `kubectl -n <ns> logs <pod> user-container`'ing all the time? 
 
 Try `gtflp`!
 

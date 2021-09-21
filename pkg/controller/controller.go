@@ -44,12 +44,12 @@ func New(root, kubeConfigLocation, cluster string) *Controller {
 		fmt.Printf("failed to create client, %v", err)
 	}
 
-	namespace, err := returnNamespace()
-	if err != nil {
-		fmt.Printf("Error fetching namespace: %v", err)
-	}
+	// namespace, err := returnNamespace()
+	// if err != nil {
+	// 	fmt.Printf("Error fetching namespace: %v", err)
+	// }
 	// dev
-	// namespace := os.Getenv("NAMESPACE")
+	namespace := os.Getenv("NAMESPACE")
 
 	config, err := BuildClientConfig(kubeConfigLocation, cluster)
 	if err != nil {

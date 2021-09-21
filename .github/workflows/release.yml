@@ -13,13 +13,11 @@ jobs:
           go-version: 1.15
       - uses: actions/checkout@v2
 
-
       - name: Setup ko
         run: |
          go get github.com/google/ko/cmd/ko
          docker login -u tmjeff -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    
       - name: Build the frontend and update the static content
         run: |
           make update-static

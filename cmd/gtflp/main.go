@@ -60,9 +60,6 @@ func main() {
 	})
 
 	c.StartLoggingHandler()
-	// c.Mux().HandleFunc("/stoplogging", func(w http.ResponseWriter, r *http.Request) {
-	// 	c.
-	// })
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())
 	if err != nil {

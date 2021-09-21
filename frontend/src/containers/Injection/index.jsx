@@ -17,8 +17,13 @@ import { Button, Container, Row } from "reactstrap";
 import InjectionPod from "./components/Injection";
 import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
+import JSONPretty from "react-json-pretty";
+import { Heading } from "grommet";
+var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 
 function Injection() {
+  const [events, setEvents] = React.useState([]);
+
   const corsOptions = {
     origin: "*",
   };
@@ -35,8 +40,45 @@ function Injection() {
       });
   }
 
+  useEffect(() => {
+    // this is not working
+    window.addEventListener("beforeunload", (event) => {
+      // Cancel the event as stated by the standard.
+      event.preventDefault();
+      onClose();
+      // Chrome requires returnValue to be set.
+      event.returnValue = "";
+    });
+
+    console.log("Protocol: " + window.location.protocol);
+    let wsURL = "ws://" + document.location.host + "/ws";
+
+    if (window.location.protocol === "https:") {
+      wsURL = "wss://" + document.location.host + "/ws";
+    }
+
+    console.log("WS URL: " + wsURL);
+    let sock = new ReconnectingWebSocket(wsURL);
+    sock.onopen = function () {
+      console.log("connected to " + wsURL);
+    };
+    sock.onclose = function (e) {
+      console.log("connection closed (" + e.code + ")");
+    };
+    // Where we get the messages from the server
+    sock.onmessage = function (e) {
+      let t = JSON.parse(e.data);
+      console.log(t);
+
+      setEvents(events.concat(t));
+    };
+    return () => {
+      sock.close();
+    };
+  });
+
   const [services, setServices] = useState([]);
-  fetchServices();
+
   return (
     <Container>
       <h3 className="page-title">Cloudevent Injection:</h3>
@@ -44,6 +86,19 @@ function Injection() {
 
       <Row>
         <InjectionPod destinations={services} />
+        <Button style={{height:40, width:200 , marginTop:220 }} onClick={fetchServices}>Refresh Destinations</Button>
+        <Row>
+         
+        </Row>
+      </Row>
+      <Row>
+        {events.map((event, index) => {
+          return (
+            <div key={index}>
+              <JSONPretty json={event} theme={JSONPrettyMon} />
+            </div>
+          );
+        })}
       </Row>
     </Container>
   );

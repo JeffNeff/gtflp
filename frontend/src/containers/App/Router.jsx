@@ -18,12 +18,14 @@ import Layout from "../Layout/index";
 import MainWrapper from "./MainWrapper";
 
 import LogContainer from "../LogContainer";
+import EventViewer from "../EventViewer";
 
 const wrappedRoutes = () => (
   <div>
     <Layout />
     <div className="container__wrap">
-      <Route path="/" component={LogContainer} />
+      <Route path="/LogScanner" component={LogContainer} />
+      <Route path="/EventViewer" component={EventViewer} />
     </div>
   </div>
 );

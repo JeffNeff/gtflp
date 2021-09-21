@@ -22,7 +22,7 @@ jobs:
 
       - name: Build the frontend and update the static content
         run: |
-          make update-static
+         go mod tidy &&  make update-static
   
       - name: Build and Publish images, Produce release artifact.
         run: |

@@ -9,12 +9,15 @@
 [![Create Cluster](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml) 
 ## What it is
 
-Tired of `kubectl -n <ns> logs <pod> user-container`'ing all the time? 
+`gtfp` is a tool for debugging pods and testing cloudevents.
 
-Try `gtflp`!
-
-`gtflp` serves to stream the logs from pods in the same namespace as the gtflp deployment. Allowing you to monitor
+Capabilities:
+* Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor
 pod logs in a single window. 
+
+* View Cloudevents 
+
+* (Coming soon) Inject Cloudevents 
 
 ![](./img/ls.png)
 
@@ -35,7 +38,6 @@ pod logs in a single window.
 1. Clone this repo, or download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases/tag/v0.1) 
 
     git clone https://github.com/JeffNeff/gtflp.git
-
 
 
 1. Update line 41 of file [release.yaml](./release.yaml) with the correct namespace
@@ -69,8 +71,6 @@ To build the frontend and update the static files located in `/cmd/gtflp/kodata`
 
 ### Backend
     
-    export DEV=true
-    export NAMESPACE=<namespace>
     KO_DATA_PATH=cmd/gtflp/kodata/ go run ./cmd/gtflp
 or
     make debug

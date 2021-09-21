@@ -46,7 +46,7 @@ func main() {
 			fmt.Println("error in getting access to K8S")
 		}
 
-		x.k8sClient = clientset.CoreV1()
+		c.StartLoggingHandler()
 
 	} else {
 		x.Namespace = os.Getenv("NAMESPACE")

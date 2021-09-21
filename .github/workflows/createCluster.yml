@@ -19,8 +19,8 @@ jobs:
           go-version: 1.15.x
 
       - name: Setup ko
-        run: go get github.com/google/ko/cmd/ko
-        
+        run: |
+          go get github.com/google/ko/cmd/ko
         
       - name: Run kubectl create ns demo
         run: kubectl create ns demo

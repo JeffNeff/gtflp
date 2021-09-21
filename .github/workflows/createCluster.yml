@@ -8,12 +8,12 @@ jobs:
     env:
       KO_DOCKER_REPO: docker.io/jeffthenaef
     steps:
+      - name: Setup ko
+        run: |
+          go get github.com/google/ko/cmd/ko@v0.8.1
+          
       - name: checkout
         uses: actions/checkout@v2
-
-      - name: Setup ko
-        uses: google/ko@main
-          
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.2.0
         

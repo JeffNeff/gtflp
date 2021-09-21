@@ -26,9 +26,10 @@ function LogCard(props) {
             {props.messages.map((message, index) => {
               // search for the `:` we placed earlier
               let sr = message.search(":");
+              let substr = message.substring(0, 10);
               // get the pod name
               // check to see if the pod contains the name `gtflp`
-              let check = message.search("gtflp");
+              let check = substr.search("gtflp");
               if (check > -1) {
                 return;
               }

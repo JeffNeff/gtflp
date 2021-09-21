@@ -15,7 +15,7 @@ jobs:
 
       - name: Setup ko
         run: |
-          go get github.com/google/ko/cmd/ko
+          go get github.com/google/ko/cmd/ko@v0.8.1
           
       - name: checkout
         uses: actions/checkout@v2
@@ -39,9 +39,6 @@ jobs:
 
       - name: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
         run: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: install client go
-        run: go get k8s.io/client-go@latest && go mod tidy
 
       - name: ko -n demo apply -f config/
         run: ko -n demo apply -f config/

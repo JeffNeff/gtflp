@@ -22,6 +22,7 @@ update-static:
 	@cd frontend && npm run build && mv build kodata && mv kodata ../cmd/gtflp/kodata/
 
 release:
+	@cd frontend && yarn install
 	@make update-static
 	@ko resolve -f config/ > release.yaml
 

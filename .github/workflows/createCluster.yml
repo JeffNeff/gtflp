@@ -36,4 +36,7 @@ jobs:
       - name:  kubectl -n demo get ksvc
         run: kubectl -n demo get ksvc
 
+      - name:  kubectl -n demo get pods
+        run: kubectl -n demo get pods
+
 

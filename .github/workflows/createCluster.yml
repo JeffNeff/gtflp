@@ -21,8 +21,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.2.0
-
-
         
       - name: Run kubectl create ns demo
         run: kubectl create ns demo
@@ -41,6 +39,9 @@ jobs:
 
       - name: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
         run: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: install client go
+        run: go get k8s.io/client-go@latest
         
       - name: ko -n demo apply -f config/
         run: ko -n demo apply -f config/

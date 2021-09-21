@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React, { useState, useEffect } from "react";
-import {  Container, Row } from "reactstrap";
+import { Button, Container, Row } from "reactstrap";
 import LogCard from "./components/LogCard";
 import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
@@ -21,20 +21,6 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 function LogContainer() {
   const [messages, setMessages] = useState([]);
   const [podNames, setPodNames] = useState([]);
-
-  // this is not working
-  const onClose = () => {
-    console.log("CLOSING");
-    axios
-      .post("/wsclose", {}, corsOptions)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
 
   useEffect(() => {
     // this is not working
@@ -47,10 +33,10 @@ function LogContainer() {
     });
 
     console.log("Protocol: " + window.location.protocol);
-    let wsURL = "ws://" + document.location.host + "/ws";
+    let wsURL = "ws://" + document.location.host + "/lws";
 
     if (window.location.protocol === "https:") {
-      wsURL = "wss://" + document.location.host + "/ws";
+      wsURL = "wss://" + document.location.host + "/lws";
     }
 
     console.log("WS URL: " + wsURL);
@@ -64,32 +50,33 @@ function LogContainer() {
     // Where we get the messages from the server
     sock.onmessage = function (e) {
       let t = JSON.parse(e.data);
-      console.log(t);
-
       if (podNames.includes(t.pod) == false) {
         setPodNames(podNames.concat(t.pod));
         console.log(podNames);
       }
 
       setMessages(messages.concat(t.pod + " : " + t.message));
-
     };
-    return () => {
-      sock.close();
-    };
+    return () => {} 
+    //  function cleanup() {
+    //   console.log("CLOSING");
+    //   axios
+    //     .post("/wsclose", {}, corsOptions)
+    //     .then(function (response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    //   sock.close();
+    // };
   });
 
   return (
-    <Container >
+    <Container>
       <h3 className="page-title">Log Scanner:</h3>
       <h5> Load new pod logs from running resources in the namespace </h5>
       <Row>
-        {/* {podNames.map((podName) => {
-            if (podNames.length > 0) {
-            // location = podNames.indexOf(podName);
-            <LogCard messages={messages} podName={podName} podNames={podNames} />
-            }
-          })} */}
         <LogCard messages={messages} podNames={podNames} />
       </Row>
     </Container>

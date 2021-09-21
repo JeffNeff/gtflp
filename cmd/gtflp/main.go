@@ -1,77 +1,77 @@
-// Copyright [2021] [Jeff Naef]
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-//     http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package main
 
 import (
-	"fmt"
-	"os"
+	"context"
+	"log"
+	"net/http"
+	"path"
+	"strings"
 
-	"github.com/gorilla/websocket"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
+	"github.com/JeffNeff/gtflp/pkg/controller"
+	cloudevents "github.com/cloudevents/sdk-go/v2"
+	"github.com/kelseyhightower/envconfig"
 )
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+type envConfig struct {
+	DataPath string `envconfig:"KO_DATA_PATH" default:"/var/run/ko/" required:"true"`
+	WWWPath  string `envconfig:"WWW_PATH" default:"www" required:"true"`
+	Port     int    `envconfig:"PORT" default:"8080" required:"true"`
+	// TODO: Make self aware of the cluster namespace
+	ClusterName string `envconfig:"CLUSTER_NAME" required:"true"`
+	Namespace   string `envconfig:"NAMESPACE" required:"false"`
+	User        string `envconfig:"USER" required:"false"`
 }
 
 func main() {
-	x := Controller{}
-	var err error
-	if os.Getenv("DEV") == "" {
-		x.Namespace, err = ReturnNamespace()
-		if err != nil {
-			fmt.Printf("Error fetching namespace: %v", err)
-		}
-
-		config, err := rest.InClusterConfig()
-		if err != nil {
-			fmt.Println("error in getting config")
-		}
-		clientset, err := kubernetes.NewForConfig(config)
-		if err != nil {
-			fmt.Println("error in getting access to K8S")
-		}
-
-		c.StartLoggingHandler()
-
-	} else {
-		x.Namespace = os.Getenv("NAMESPACE")
-		x.k8sClient, err = GetClient()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		}
+	var env envConfig
+	if err := envconfig.Process("", &env); err != nil {
+		log.Fatalf("failed to process env var: %s", err)
 	}
 
-	if x.Namespace == "" {
-		fmt.Println("No namespace specified")
+	www := path.Join(env.DataPath)
+	if !strings.HasSuffix(www, "/") {
+		www = www + "/"
 	}
 
-	x.Start()
+	c := controller.New(www, "/Users/"+env.User+"/.kube/config", env.ClusterName)
+
+	t, err := cloudevents.NewHTTP(
+		cloudevents.WithPath("/ce"), // hack hack
+	)
+	if err != nil {
+		log.Fatalf("failed to create cloudevents transport, %s", err.Error())
+	}
+	// I am doing this to allow root to be both POST for cloudevents and GET as root ui.
+	c.Mux().HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			t.ServeHTTP(w, r)
+			return
+		}
+		c.RootHandler(w, r)
+	})
+	t.Handler = c.Mux()
+
+	c.Mux().HandleFunc("/inject", func(w http.ResponseWriter, r *http.Request) {
+		c.InjectionHandler(w, r)
+	})
+
+	c.Mux().HandleFunc("/queryservices", func(w http.ResponseWriter, r *http.Request) {
+		c.QueryServicesHandler(w, r)
+	})
+
+	c.StartLoggingHandler()
+	// c.Mux().HandleFunc("/stoplogging", func(w http.ResponseWriter, r *http.Request) {
+	// 	c.
+	// })
+
+	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())
+	if err != nil {
+		log.Fatalf("failed to create cloudevents client, %s", err.Error())
+	}
+
+	log.Printf("Server starting on port 8080\n")
+	if err := ce.StartReceiver(context.Background(), c.CeHandler); err != nil {
+		log.Fatalf("failed to start cloudevent receiver, %s", err.Error())
+	}
+
 }
-
-// for {
-// 	// if x.Ws == nil {
-// 	// 	break
-// 	// }
-
-// 	// var message Message
-// 	// err := x.Ws.ReadJSON(&message)
-// 	// if !errors.Is(err, nil) {
-// 	// 	log.Printf("error occurred: %v", err)
-// 	// 	break
-// 	// }
-// 	// log.Println(message)

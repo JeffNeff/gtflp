@@ -38,7 +38,19 @@ subjects:
   - kind: ServiceAccount
     name: gtflp
     # UPDATE THIS TO MATCH YOUR NAMESPACE:
-    namespace: demo
+    namespace: midimansland
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: gtflp
+spec:
+  broker: default
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: gtflp
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -53,4 +65,7 @@ spec:
       serviceAccountName: gtflp
       containers:
         - image: ko://github.com/JeffNeff/gtflp/cmd/gtflp/
+          env:
+            - name: CLUSTER_NAME
+              value: arn:aws:eks:eu-central-1:043455440429:cluster/staging
 

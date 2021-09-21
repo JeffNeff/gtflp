@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Release
     env:
-      KO_DOCKER_REPO: docker.io/n3wscott
+      KO_DOCKER_REPO: docker.io/tmjeff
     steps:
       - uses: actions/setup-go@v2
         with:

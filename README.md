@@ -47,6 +47,8 @@ pod logs in a single window.
 
 1. Update line 41 of file [release.yaml](./release.yaml) with the correct namespace
 
+1. Update line 71 of file [release.yaml](./release.yaml) with the correct cluster name
+
 1. apply the manifest:
 
         kubectl -n <namespace> apply -f release.yaml
@@ -83,6 +85,9 @@ or
 ### Releaseing
 
 Update line 41 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
+
+Update line 71 of file [gtflp.yaml](./config/gtflp.yaml )  with the correct cluster name
+
 
     make release
 

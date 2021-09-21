@@ -69,6 +69,6 @@ spec:
         - image: gcr.io/fit-stream-305821/gtflp-74a7bfcfca304ccc24ab0c1018431452@sha256:853d7a33ec36ff22d7a82497d80867706e17a5b971d185b21b7fbc0367c79e00
           env:
             - name: CLUSTER_NAME
-              value: arn:aws:eks:eu-central-1:043455440429:cluster/staging
+              value: <Cluster_Name>
 
 ---

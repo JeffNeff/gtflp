@@ -1,4 +1,4 @@
-name: Create Cluster
+name: Deploy to KIND
 
 on: push
 

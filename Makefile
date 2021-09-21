@@ -19,10 +19,9 @@ help:
 
 update-static:
 	@cd cmd/gtflp && rm -rf kodata 
-	@cd frontend && npm run build && mv build kodata && mv kodata ../cmd/gtflp/kodata/
+	@cd frontend && yarn install && npm run build && mv build kodata && mv kodata ../cmd/gtflp/kodata/
 
 release:
-	@cd frontend && yarn install
 	@make update-static
 	@ko resolve -f config/ > release.yaml
 

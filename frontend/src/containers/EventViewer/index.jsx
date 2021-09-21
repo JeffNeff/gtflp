@@ -14,13 +14,17 @@
 
 import React, { useState, useEffect } from "react";
 import {  Container, Row } from "reactstrap";
-import LogCard from "./components/LogCard";
 import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
+import JSONPretty from "react-json-pretty";
+var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 
 function EventViewer() {
-  const [messages, setMessages] = useState([]);
-  const [podNames, setPodNames] = useState([]);
+  const [events, setEvents] = React.useState([]);
+
+  const corsOptions = {
+    origin: "*",
+  };
 
   // this is not working
   const onClose = () => {
@@ -53,6 +57,8 @@ function EventViewer() {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
+    // wsURL = "ws://localhost:8080/ws"
+
     console.log("WS URL: " + wsURL);
     let sock = new ReconnectingWebSocket(wsURL);
     sock.onopen = function () {
@@ -66,13 +72,8 @@ function EventViewer() {
       let t = JSON.parse(e.data);
       console.log(t);
 
-      if (podNames.includes(t.pod) == false) {
-        setPodNames(podNames.concat(t.pod));
-        console.log(podNames);
-      }
-
-      setMessages(messages.concat(t.pod + " : " + t.message));
-
+      setEvents(events.concat(t));
+      
     };
     return () => {
       sock.close();
@@ -81,16 +82,17 @@ function EventViewer() {
 
   return (
     <Container >
-      <h3 className="page-title">Log Scanner:</h3>
-      <h5> Load new pod logs from running resources in the namespace </h5>
+      <h3 className="page-title">Event Viewer:</h3>
+      <h5> View Cloudevents here! </h5>
       <Row>
-        {/* {podNames.map((podName) => {
-            if (podNames.length > 0) {
-            // location = podNames.indexOf(podName);
-            <LogCard messages={messages} podName={podName} podNames={podNames} />
-            }
-          })} */}
-        <LogCard messages={messages} podNames={podNames} />
+      {events.map((event, index) => {
+              return (
+                <div key={index}>
+                  <JSONPretty json={event} theme={JSONPrettyMon} />
+                </div>
+              );
+            })}
+
       </Row>
     </Container>
   );

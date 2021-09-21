@@ -5,6 +5,8 @@ on: push
 jobs:
   create-cluster:
     runs-on: ubuntu-latest
+    env:
+      KO_DOCKER_REPO: docker.io/jeffthenaef
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -25,9 +27,15 @@ jobs:
         
       - name: kubectl label ns demo eventing.knative.dev/injection=enabled
         run:  kubectl label ns demo eventing.knative.dev/injection=enabled
+
+      - name: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: docker login -u jeffthenaef -p ${{ secrets.DOCKERHUB_PASSWORD }}
         
-      - name: kubectl -n demo apply -f release.yaml
-        run: kubectl -n demo apply -f release.yaml
+      - name: Setup ko
+        run: go get github.com/google/ko/cmd/ko
+        
+      - name: ko -n demo apply -f config/
+        run: ko -n demo apply -f config/
 
       - name: Sleep for 30 seconds
         run: sleep 30s

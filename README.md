@@ -6,7 +6,7 @@
                                  \___  /|__|  |__|  |____/   __/ 
                                 /_____/                  |__|    
 
-[![Create Cluster](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml) 
+[![Create Cluster](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml) [![Release](https://github.com/JeffNeff/gtflp/actions/workflows/release.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/release.yml)
 ## What it is
 
 `gtfp` is a tool for debugging pods and testing cloudevents.

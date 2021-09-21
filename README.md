@@ -13,13 +13,18 @@
 
 Capabilities:
 * Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor
+
 pod logs in a single window. 
+
+![](./img/log.png)
 
 * View Cloudevents : View events that are sent directly to the `gtflp` deployment, or via configured triggers.
 
+![](./img/event.png)
+
 * Inject Cloudevents : Inject events directly into pods, or into brokers within the namespace. 
 
-![](./img/ls.png)
+![](./img/injection.png)
 
 ## Prerequisites
 

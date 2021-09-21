@@ -1,6 +1,12 @@
 name: Deploy to KIND
 
-on: push
+on:
+  push:
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      - main
+    tags:        
+      - v1.*      
 jobs:
   create-cluster:
     runs-on: ubuntu-latest

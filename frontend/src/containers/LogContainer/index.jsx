@@ -39,6 +39,8 @@ function LogContainer() {
       wsURL = "wss://" + document.location.host + "/lws";
     }
 
+    // wsURL = "ws://localhost:8080/lws"
+
     console.log("WS URL: " + wsURL);
     let sock = new ReconnectingWebSocket(wsURL);
     sock.onopen = function () {

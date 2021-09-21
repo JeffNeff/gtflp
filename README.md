@@ -6,7 +6,7 @@
                                          \___  /|__|  |__|  |____/   __/ 
                                         /_____/                  |__|    
 
-
+[![Create Cluster](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/createCluster.yml) 
 ## What it is
 
 Tired of `kubectl -n <ns> logs <pod> user-container`ing all the time? 

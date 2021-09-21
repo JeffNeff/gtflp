@@ -22,6 +22,8 @@ rules:
       - "pods"
       - "deployments"
       - "replicasets"
+      - "routes"
+      - "brokers"
     verbs:
       - get
       - list
@@ -38,7 +40,19 @@ subjects:
   - kind: ServiceAccount
     name: gtflp
     # UPDATE THIS TO MATCH YOUR NAMESPACE:
-    namespace: demo
+    namespace: midimansland
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: gtflp
+spec:
+  broker: default
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: gtflp
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -52,6 +66,9 @@ spec:
     spec:
       serviceAccountName: gtflp
       containers:
-        - image: gcr.io/fit-stream-305821/gtflp-74a7bfcfca304ccc24ab0c1018431452@sha256:0919a9eb957a218c95dfe5e511f31e98770293c620d654c094358a1a2b529b6f
+        - image: gcr.io/fit-stream-305821/gtflp-74a7bfcfca304ccc24ab0c1018431452@sha256:853d7a33ec36ff22d7a82497d80867706e17a5b971d185b21b7fbc0367c79e00
+          env:
+            - name: CLUSTER_NAME
+              value: arn:aws:eks:eu-central-1:043455440429:cluster/staging
 
 ---

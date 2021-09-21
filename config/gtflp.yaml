@@ -69,5 +69,5 @@ spec:
         - image: ko://github.com/JeffNeff/gtflp/cmd/gtflp/
           env:
             - name: CLUSTER_NAME
-              value: arn:aws:eks:eu-central-1:043455440429:cluster/staging
+              value: <Cluster_Name>
 

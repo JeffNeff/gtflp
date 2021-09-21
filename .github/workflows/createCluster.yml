@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Setup ko
         run: |
-          go get github.com/google/ko/cmd/ko@v0.8.1
+          go get github.com/google/ko/cmd/ko
           
       - name: checkout
         uses: actions/checkout@v2

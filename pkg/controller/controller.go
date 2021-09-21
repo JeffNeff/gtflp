@@ -49,7 +49,7 @@ func New(root, kubeConfigLocation, cluster string) *Controller {
 		fmt.Printf("Error fetching namespace: %v", err)
 	}
 	// dev
-	namespace = "midimansland"
+	// namespace = "midimansland"
 
 	config, err := BuildClientConfig(kubeConfigLocation, cluster)
 	if err != nil {
@@ -93,7 +93,6 @@ func returnNamespace() (string, error) {
 		fmt.Println("Error reading file:", err)
 		return "", err
 	}
-	fmt.Printf("found namespace %v ", string(dat))
 	s := string(dat)
 	return s, nil
 }

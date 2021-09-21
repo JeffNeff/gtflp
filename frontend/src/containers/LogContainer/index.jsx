@@ -37,23 +37,13 @@ function LogContainer() {
 
 
   useEffect(() => {
-    // this is not working
-    window.addEventListener("beforeunload", (event) => {
-      // Cancel the event as stated by the standard.
-      event.preventDefault();
-      onClose();
-      // Chrome requires returnValue to be set.
-      event.returnValue = "";
-    });
-
     console.log("Protocol: " + window.location.protocol);
     let wsURL = "ws://" + document.location.host + "/lws";
-
     if (window.location.protocol === "https:") {
       wsURL = "wss://" + document.location.host + "/lws";
     }
-
-    wsURL = "ws://localhost:8080/lws"
+    
+    // wsURL = "ws://localhost:8080/lws"
 
     console.log("WS URL: " + wsURL);
     let sock = new ReconnectingWebSocket(wsURL);

@@ -19,6 +19,7 @@ import MainWrapper from "./MainWrapper";
 
 import LogContainer from "../LogContainer";
 import EventViewer from "../EventViewer";
+import Injection from "../Injection";
 
 const wrappedRoutes = () => (
   <div>
@@ -26,6 +27,7 @@ const wrappedRoutes = () => (
     <div className="container__wrap">
       <Route path="/LogScanner" component={LogContainer} />
       <Route path="/EventViewer" component={EventViewer} />
+      <Route path="/EventInjection" component={Injection} />
     </div>
   </div>
 );

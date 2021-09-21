@@ -22,6 +22,8 @@ rules:
       - "pods" 
       - "deployments" 
       - "replicasets" 
+      - "routes"
+      - "brokers"
     verbs:
       - get
       - list

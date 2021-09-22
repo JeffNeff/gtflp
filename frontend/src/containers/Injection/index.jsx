@@ -14,6 +14,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button, Container, Row } from "reactstrap";
+import { Card, CardBody, Col } from "reactstrap";
 import InjectionPod from "./components/Injection";
 import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
@@ -86,17 +87,28 @@ function Injection() {
 
       <Row>
         <InjectionPod destinations={services} />
-        <Button style={{height:40, width:200 , marginTop:220 }} onClick={fetchServices}>Refresh Destinations</Button>
-        <Row>
-         
-        </Row>
+        <Button
+          style={{ height: 40, width: 200, marginTop: 220 }}
+          onClick={fetchServices}
+        >
+          Refresh Destinations
+        </Button>
+        <Row></Row>
       </Row>
       <Row>
         {events.map((event, index) => {
           return (
-            <div key={index}>
-              <JSONPretty json={event} theme={JSONPrettyMon} />
-            </div>
+            <Col md={12}>
+              <Card>
+                <CardBody>
+                  <div key={index}>
+                    <Row>
+                      <JSONPretty json={event} theme={JSONPrettyMon} />
+                    </Row>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
           );
         })}
       </Row>

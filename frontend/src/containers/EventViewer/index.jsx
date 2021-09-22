@@ -14,6 +14,7 @@
 
 import React, { useState, useEffect } from "react";
 import {  Container, Row } from "reactstrap";
+import { Card, CardBody, Col } from "reactstrap";
 import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
@@ -84,16 +85,24 @@ function EventViewer() {
     <Container >
       <h3 className="page-title">Event Viewer:</h3>
       <h5> View Cloudevents here! </h5>
-      <Row>
+
       {events.map((event, index) => {
               return (
+                <Col md={12}>
+                <Card>
+                  <CardBody>
                 <div key={index}>
+                  <Row>
                   <JSONPretty json={event} theme={JSONPrettyMon} />
+                  </Row>
                 </div>
+                </CardBody>
+                </Card>
+                </Col>
               );
             })}
 
-      </Row>
+
     </Container>
   );
 }

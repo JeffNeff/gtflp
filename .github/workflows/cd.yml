@@ -28,7 +28,7 @@ jobs:
         export_default_credentials: true
         
     - name: checkout
-      uses: actions/checkout@v
+      uses: actions/checkout@v2
 
     - name: update static elements
       run: make update-static

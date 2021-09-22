@@ -16,6 +16,7 @@ help:
 	@echo
 	@echo "debug : Start with the kodata env variable eg:  KO_DATA_PATH=cmd/gtflp/kodata/ go run ./cmd/gtflp "
 	@echo
+	@echo "image : Releases a new image to the gcloud distro repo"
 
 update-static:
 	@cd cmd/gtflp && rm -rf kodata 
@@ -27,3 +28,6 @@ release:
 
 debug:
 	@KO_DATA_PATH=cmd/gtflp/kodata/ DEV=true go run ./cmd/gtflp
+
+image:
+	@gcloud builds submit --tag gcr.io/fit-stream-305821/gtflp

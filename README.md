@@ -5,7 +5,7 @@
                                  / /_/  >  |  |  |  |  |_|  |_> >
                                  \___  /|__|  |__|  |____/   __/ 
                                 /_____/                  |__|    
-
+[![Deploy and Release](https://github.com/JeffNeff/gtflp/actions/workflows/createrelease.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/createrelease.yml)
 ## What it is
 
 `gtfp` is a tool for debugging pods and testing cloudevents.

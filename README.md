@@ -43,8 +43,6 @@ pod logs in a single window.
 
 1. Update line 43 of file `release.yaml` with the correct namespace
 
-1. Update line 72 of file `release.yaml` with the correct cluster name
-
 1. apply the manifest:
 
         kubectl -n <namespace> apply -f release.yaml
@@ -72,17 +70,15 @@ To build the frontend and update the static files located in `/cmd/gtflp/kodata`
     make update-static
 
 ### Backend
-    
+    export CLUSTER_NAME=<cluster-name>
     KO_DATA_PATH=cmd/gtflp/kodata/ go run ./cmd/gtflp
 or
+    export CLUSTER_NAME=<cluster-name>
     make debug
 
 ### Releaseing
 
 Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
-
-Update line 72 of file [gtflp.yaml](./config/gtflp.yaml )  with the correct cluster name
-
 
     make release
 

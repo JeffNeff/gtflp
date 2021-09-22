@@ -40,7 +40,7 @@ subjects:
   - kind: ServiceAccount
     name: gtflp
     # UPDATE THIS TO MATCH YOUR NAMESPACE:
-    namespace: midimansland
+    namespace: demo
 ---
 apiVersion: eventing.knative.dev/v1
 kind: Trigger
@@ -69,5 +69,4 @@ spec:
         - image: ko://github.com/JeffNeff/gtflp/cmd/gtflp/
           env:
             - name: CLUSTER_NAME
-              value: <Cluster_Name>
-
+              value: chart-testing

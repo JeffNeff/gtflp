@@ -58,6 +58,9 @@ pod logs in a single window.
   
 1. Open the url in your browser.
 
+
+Note: The image located at gcr.io/fit-stream-305821/gtflp is kept up to date via Github Actions on each merge with master. If you want to deploy an image that gets regular updates. Use this one. 
+
 ## Development
 ### Frontend
 

@@ -17,7 +17,7 @@ type envConfig struct {
 	WWWPath  string `envconfig:"WWW_PATH" default:"www" required:"true"`
 	Port     int    `envconfig:"PORT" default:"8082" required:"true"`
 	// TODO: Make self aware of the cluster namespace
-	ClusterName string `envconfig:"CLUSTER_NAME" required:"true"`
+	ClusterName string `envconfig:"CLUSTER_NAME" default:"chart-testing" required:"false"`
 	Namespace   string `envconfig:"NAMESPACE" required:"false"`
 	User        string `envconfig:"USER" required:"false"`
 }

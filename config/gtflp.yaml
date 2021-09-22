@@ -68,5 +68,5 @@ spec:
       containers:
         - image: ko://github.com/JeffNeff/gtflp/cmd/gtflp/
           env:
-            - name: CLUSTER_NAME
-              value: chart-testing
+
+

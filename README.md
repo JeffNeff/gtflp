@@ -45,9 +45,9 @@ pod logs in a single window.
     git clone https://github.com/JeffNeff/gtflp.git
 
 
-1. Update line 41 of file [release.yaml](./release.yaml) with the correct namespace
+1. Update line 43 of file [release.yaml](./release.yaml) with the correct namespace
 
-1. Update line 71 of file [release.yaml](./release.yaml) with the correct cluster name
+1. Update line 72 of file [release.yaml](./release.yaml) with the correct cluster name
 
 1. apply the manifest:
 
@@ -84,9 +84,9 @@ or
 
 ### Releaseing
 
-Update line 41 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
+Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
 
-Update line 71 of file [gtflp.yaml](./config/gtflp.yaml )  with the correct cluster name
+Update line 72 of file [gtflp.yaml](./config/gtflp.yaml )  with the correct cluster name
 
 
     make release

@@ -1,0 +1,82 @@
+name: Deploy and Release
+
+on:
+  push:
+    branches:
+      - "main"    
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    env:
+      KO_DOCKER_REPO: docker.io/tmjeff
+    steps:          
+      - uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      - uses: actions/checkout@v2
+
+      - name: Setup ko
+        run: |
+         go get github.com/google/ko/cmd/ko
+         docker login -u tmjeff -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.2.0
+        
+      - name: Run kubectl create ns demo
+        run: kubectl create ns demo
+        
+      - name: Git clone kn plugin
+        run: git clone https://github.com/JeffNeff/knative-tutorial.git
+    
+      - name: ./install-serving
+        run:  ./knative-tutorial/setup/install-serving
+        
+      - name: ./install-eventing
+        run:  ./knative-tutorial/setup/install-eventing
+        
+      - name: kubectl label ns demo eventing.knative.dev/injection=enabled
+        run:  kubectl label ns demo eventing.knative.dev/injection=enabled
+
+      - name: Build the frontend and update the static content
+        run: |
+         go mod tidy &&  make update-static
+
+      - name: Build and Publish images, Produce release artifact.
+        run: |
+          ko resolve -f ./config > release.yaml
+
+      - name: apply release manifest
+        run: kubectl -n demo apply -f release.yaml
+
+      - name: Sleep for 30 seconds
+        run: sleep 60s
+        shell: bash
+
+      - name:  kubectl -n demo get ksvc
+        run: kubectl -n demo get ksvc
+
+      - name:  kubectl -n demo get pods
+        run: kubectl -n demo get pods
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_SEC }}
+        with:
+          tag_name: ${{ github.run_id }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+  
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_SEC }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release.yaml
+          asset_name: release.yaml
+          asset_content_type: text/plain
+

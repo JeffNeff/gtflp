@@ -40,14 +40,11 @@ pod logs in a single window.
 
 ## How to use it
 
-1. Clone this repo, or download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases/tag/v0.1) 
+1. Download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases/tag/v0.1) 
 
-    git clone https://github.com/JeffNeff/gtflp.git
+1. Update line 43 of file `release.yaml` with the correct namespace
 
-
-1. Update line 43 of file [release.yaml](./release.yaml) with the correct namespace
-
-1. Update line 72 of file [release.yaml](./release.yaml) with the correct cluster name
+1. Update line 72 of file `release.yaml` with the correct cluster name
 
 1. apply the manifest:
 
@@ -65,7 +62,6 @@ pod logs in a single window.
 1. Open the url in your browser.
 
 ## Development
-
 ### Frontend
 
     cd frontend

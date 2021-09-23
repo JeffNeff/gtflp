@@ -41,11 +41,11 @@ Capabilities:
 
 ## How to use it
 
-1. Download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases) 
+1. Download the `release.yaml` from the most current [releases.](https://github.com/JeffNeff/gtflp/releases) 
 
-1. Update line 43 of file `release.yaml` with the correct namespace
+1. Update line 43 of file `release.yaml` with the correct namespace.
 
-1. apply the manifest:
+1. Apply the manifest:
 
         kubectl -n <namespace> apply -f release.yaml
     
@@ -60,7 +60,7 @@ Capabilities:
   
 1. Open the url in your browser.
 
-**Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the ui. 
+**Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the UI. 
 If you want to show logs from the `gtflp` pod, then chagne the name of the deployment to something else. 
 
 Note: The image located at gcr.io/fit-stream-305821/gtflp is kept up to date with this repo via Github Actions, on each merge with master. If you want to deploy an image that gets regular updates. Use this one. 
@@ -80,17 +80,19 @@ To build the frontend and update the static files located in `/cmd/gtflp/kodata`
 
     export CLUSTER_NAME=<cluster-name>
     KO_DATA_PATH=cmd/gtflp/kodata/ go run ./cmd/gtflp
-or
+    
+Or
+
     export CLUSTER_NAME=<cluster-name>
     make debug
 
 ### Releaseing
 
-1. Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
-
-1. Create a `release.yaml` file in the root directory 
+1. Create a `release.yaml` file in the root directory:
   
     make release
+    
+1. Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace before applying. 
 
 **Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the ui. 
 If you want to show logs from the `gtflp` pod, then chagne the name of the deployment to something else. 

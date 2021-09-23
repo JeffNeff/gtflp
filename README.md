@@ -11,9 +11,7 @@
 `gtfp` is a tool for debugging pods and testing cloudevents.
 
 Capabilities:
-* Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor
-
-pod logs in a single window. 
+* Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor pod logs in a single window. 
 
 ![](./img/log.png)
 
@@ -39,7 +37,7 @@ pod logs in a single window.
 
 ## How to use it
 
-1. Download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases/tag/v0.1) 
+1. Download the `release.yaml` from the most current [releases](https://github.com/JeffNeff/gtflp/releases) 
 
 1. Update line 43 of file `release.yaml` with the correct namespace
 
@@ -58,8 +56,10 @@ pod logs in a single window.
   
 1. Open the url in your browser.
 
+**Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the ui. 
+If you want to show logs from the `gtflp` pod, then chagne the name of the deployment to something else. 
 
-Note: The image located at gcr.io/fit-stream-305821/gtflp is kept up to date via Github Actions on each merge with master. If you want to deploy an image that gets regular updates. Use this one. 
+Note: The image located at gcr.io/fit-stream-305821/gtflp is kept up to date with this repo via Github Actions, on each merge with master. If you want to deploy an image that gets regular updates. Use this one. 
 
 ## Development
 ### Frontend
@@ -73,6 +73,7 @@ To build the frontend and update the static files located in `/cmd/gtflp/kodata`
     make update-static
 
 ### Backend
+
     export CLUSTER_NAME=<cluster-name>
     KO_DATA_PATH=cmd/gtflp/kodata/ go run ./cmd/gtflp
 or
@@ -81,17 +82,14 @@ or
 
 ### Releaseing
 
-Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
+1. Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace.
 
+1. Create a `release.yaml` file in the root directory 
+  
     make release
-
-### Deploying to Kubernetes
-
-    ko -n <ns> apply -f config/
 
 **Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the ui. 
 If you want to show logs from the `gtflp` pod, then chagne the name of the deployment to something else. 
-
 
 ## Contributing
 

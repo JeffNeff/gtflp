@@ -8,7 +8,7 @@
 [![Deploy and Release](https://github.com/JeffNeff/gtflp/actions/workflows/createrelease.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/createrelease.yml) [![CD](https://github.com/JeffNeff/gtflp/actions/workflows/cd.yml/badge.svg)](https://github.com/JeffNeff/gtflp/actions/workflows/cd.yml)
 ## What it is
 
-`gtfp` is a tool for debugging pods and testing cloudevents.
+`gtfp` is a tool for debugging pods and cloudevents.
 
 Capabilities:
 * Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor pod logs in a single window. 
@@ -33,7 +33,11 @@ Capabilities:
 
 ### To develop
 
+* [go](https://go.dev/learn/)
+* [yarn](https://yarnpkg.com/getting-started/install)
+* [make](https://www.gnu.org/software/make/)
 * [ko](https://github.com/google/ko) 
+* [docker](https://docs.docker.com/get-started/) or [gcloud](https://cloud.google.com/sdk/docs/quickstart)
 
 ## How to use it
 

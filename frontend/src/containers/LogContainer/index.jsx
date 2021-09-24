@@ -13,28 +13,16 @@
 // limitations under the License.
 
 import React, { useState, useEffect } from "react";
-import {  Container, Row } from "reactstrap";
+import { Container, Row } from "reactstrap";
 import LogCard from "./components/LogCard";
 import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
+import { Button } from "@material-ui/core";
 
 function LogContainer() {
   const [messages, setMessages] = useState([]);
   const [podNames, setPodNames] = useState([]);
-
-  // this is not working
-  const onClose = () => {
-    console.log("CLOSING");
-    axios
-      .post("/wsclose", {}, corsOptions)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
+  const [logsize, setLogsize] = useState(15);
 
   useEffect(() => {
     console.log("Protocol: " + window.location.protocol);
@@ -42,7 +30,7 @@ function LogContainer() {
     if (window.location.protocol === "https:") {
       wsURL = "wss://" + document.location.host + "/lws";
     }
-    
+
     // wsURL = "ws://localhost:8080/lws"
 
     console.log("WS URL: " + wsURL);
@@ -60,11 +48,9 @@ function LogContainer() {
 
       if (podNames.includes(t.pod) == false) {
         setPodNames(podNames.concat(t.pod));
-        console.log(podNames);
       }
 
       setMessages(messages.concat(t.pod + " : " + t.message));
-
     };
     return () => {
       sock.close();
@@ -72,17 +58,27 @@ function LogContainer() {
   });
 
   return (
-    <Container >
+    <Container>
       <h3 className="page-title">Log Scanner:</h3>
       <h5> Load new pod logs from running resources in the namespace </h5>
       <Row>
-        {/* {podNames.map((podName) => {
-            if (podNames.length > 0) {
-            // location = podNames.indexOf(podName);
-            <LogCard messages={messages} podName={podName} podNames={podNames} />
-            }
-          })} */}
-        <LogCard messages={messages} podNames={podNames} />
+        <Button
+          label="-"
+          onClick={() => {
+            setLogsize(logsize - 5);
+          }}
+        >
+          -
+        </Button>
+        <Button
+          label="+"
+          onClick={() => {
+            setLogsize(logsize + 5);
+          }}
+        >
+          +
+        </Button>
+        <LogCard messages={messages} podNames={podNames} logsize={logsize} />
       </Row>
     </Container>
   );

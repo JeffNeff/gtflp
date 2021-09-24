@@ -17,7 +17,7 @@ import { Container, Row } from "reactstrap";
 import { Button } from "@material-ui/core";
 import { Card, CardBody, Col } from "reactstrap";
 import InjectionPod from "./components/Injection";
-import axios from "axios";
+
 import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
 import { Heading } from "grommet";
@@ -31,17 +31,7 @@ function Injection() {
     origin: "*",
   };
 
-  function fetchServices() {
-    axios
-      .post("/queryservices", {}, corsOptions)
-      .then((response) => {
-        console.log(response.data);
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+
 
   useEffect(() => {
     // this is not working
@@ -83,7 +73,7 @@ function Injection() {
   const [services, setServices] = useState([]);
 
   return (
-    <Container>
+    <Container >
       <h3 className="page-title">Cloudevent Injection:</h3>
       <h5> Inject Cloudevents into the namespace </h5>
             <Button
@@ -102,14 +92,8 @@ function Injection() {
         >
           +
         </Button>
-      <Row>
-        <InjectionPod destinations={services} />
-        <Button
-          style={{ height: 40, width: 200, marginTop: 220 }}
-          onClick={fetchServices}
-        >
-          Refresh Destinations
-        </Button>
+      <Row >
+        <InjectionPod destinations={services}  />
         <Row></Row>
       </Row>
       <Row>

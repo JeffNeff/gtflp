@@ -64,7 +64,7 @@ func New(root, kubeConfigLocation, cluster string) *Controller {
 	}
 
 	// dev
-	// namespace = "midimansland"
+	namespace = "midimansland"
 
 	config, err := BuildClientConfig(kubeConfigLocation, cluster)
 	if err != nil {

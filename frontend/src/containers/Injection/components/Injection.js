@@ -40,6 +40,7 @@ export default function InjectionPod(props) {
 
   const divStyle = {
     width: "380px",
+    high: "100px",
   };
 
   const corsOptions = {
@@ -95,30 +96,32 @@ export default function InjectionPod(props) {
   };
 
   return (
-    <TableBody>
-      ID:
-      <TableRow>
-        <FormControl style={divStyle}>
+    <TableBody class="pure-form">
+      <TableRow class="pure-form">
+        <FormControl>
+          ID:
           <TextField
+            class="pure-form"
             id="input-injection-ceid"
             value={id}
             onChange={(e) => setID(e.target.value)}
           />
         </FormControl>
       </TableRow>
-      Type:
       <TableRow>
-        <FormControl style={divStyle}>
+        <FormControl>
+          Type
           <TextField
+            class="pure-form"
             id="input-injection-type"
             value={type}
             onChange={(e) => setType(e.target.value)}
           />
         </FormControl>
       </TableRow>
-      Source:
       <TableRow>
-        <FormControl style={divStyle}>
+        Source
+        <FormControl class="pure-form">
           <TextField
             id="input-injection-source"
             value={source}
@@ -126,19 +129,20 @@ export default function InjectionPod(props) {
           />
         </FormControl>
       </TableRow>
-      Content-Type:
       <TableRow>
-        <FormControl style={divStyle}>
+        Content-Type
+        <FormControl class="pure-form">
           <TextField
+            label=""
             id="input-injection-contenttype"
             value={contenttype}
             onChange={(e) => setContenttype(e.target.value)}
           />
         </FormControl>
       </TableRow>
-      Avalible Destinations:
+      <p1 class="pure-form"> Avalible Destinations: </p1>
       <TableRow>
-        <FormControl style={divStyle}>
+        <FormControl style={{ width: "190px" }}>
           <Select onChange={(e) => setDestination(e.target.value)}>
             {services.map((data, index) => (
               <MenuItem value={data}>{data}</MenuItem>
@@ -146,26 +150,26 @@ export default function InjectionPod(props) {
           </Select>
         </FormControl>
       </TableRow>
-      Custom Destination:
       <TableRow>
-        <FormControl style={divStyle}>
+        <Button
+          // style={{ height: 40, width: 200, marginLeft: "85px" }}
+          onClick={fetchServices}
+        >
+          Refresh Destinations
+        </Button>
+      </TableRow>
+      <p1 class="pure-form"> Custom Destination: </p1>
+      <TableRow>
+        <FormControl class="pure-form">
           <TextField
             id="input-injection-add"
             onChange={(e) => setDestination(e.target.value)}
           />
         </FormControl>
-        <TableRow>
-          <Button
-            style={{ height: 40, width: 200, marginLeft: "85px" }}
-            onClick={fetchServices}
-          >
-            Refresh Destinations
-          </Button>
-        </TableRow>
       </TableRow>
-      Data:
       <TableRow>
-        <FormControl style={divStyle}>
+        <FormControl class="pure-form">
+          Data:
           <TextArea
             id="input-injection-data"
             value={data}
@@ -174,7 +178,7 @@ export default function InjectionPod(props) {
         </FormControl>
       </TableRow>
       <TableRow>
-        <FormControl style={divStyle}>
+        <FormControl class="pure-form">
           <Button
             id="input-injection-button"
             label="Submit"

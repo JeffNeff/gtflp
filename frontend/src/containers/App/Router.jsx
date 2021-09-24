@@ -22,6 +22,7 @@ import EventViewer from "../EventViewer";
 import Injection from "../Injection";
 import Pods from "../Pods";
 import Ksvc from "../Ksvc";
+import Brokers from "../Brokers";
 
 const wrappedRoutes = () => (
   <div>
@@ -32,6 +33,7 @@ const wrappedRoutes = () => (
       <Route path="/EventInjection" component={Injection} />
       <Route path="/Pods" component={Pods} />
       <Route path="/Ksvc" component={Ksvc} />
+      <Route path="/Brokers" component={Brokers} />
     </div>
   </div>
 );

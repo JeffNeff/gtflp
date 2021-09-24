@@ -89,6 +89,14 @@ func main() {
 		c.FetchVerboseKsvc(w, r)
 	})
 
+	c.Mux().HandleFunc("/fetchBrokers", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchBrokers(w, r)
+	})
+
+	c.Mux().HandleFunc("/fetchVerboseBrokers", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchVerboseBrokers(w, r)
+	})
+
 	c.StartLoggingHandler()
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())

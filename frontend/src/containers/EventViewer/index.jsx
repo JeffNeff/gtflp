@@ -19,9 +19,11 @@ import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
+import { Button } from "@material-ui/core";
 
 function EventViewer() {
   const [events, setEvents] = React.useState([]);
+  const [logsize, setLogsize] = React.useState(10);
 
   const corsOptions = {
     origin: "*",
@@ -85,7 +87,22 @@ function EventViewer() {
     <Container >
       <h3 className="page-title">Event Viewer:</h3>
       <h5> View Cloudevents here! </h5>
-
+      <Button
+          label="-"
+          onClick={() => {
+            setLogsize(logsize - 5);
+          }}
+        >
+          -
+        </Button>
+        <Button
+          label="+"
+          onClick={() => {
+            setLogsize(logsize + 5);
+          }}
+        >
+          +
+        </Button>
       {events.map((event, index) => {
               return (
                 <Col md={12}>
@@ -93,7 +110,7 @@ function EventViewer() {
                   <CardBody>
                 <div key={index}>
                   <Row>
-                  <JSONPretty json={event} theme={JSONPrettyMon} />
+                  <JSONPretty style={{fontSize: logsize}}  json={event} theme={JSONPrettyMon} />
                   </Row>
                 </div>
                 </CardBody>

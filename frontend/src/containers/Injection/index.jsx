@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import React, { useState, useEffect } from "react";
-import { Button, Container, Row } from "reactstrap";
+import { Container, Row } from "reactstrap";
+import { Button } from "@material-ui/core";
 import { Card, CardBody, Col } from "reactstrap";
 import InjectionPod from "./components/Injection";
 import axios from "axios";
@@ -24,6 +25,7 @@ var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 
 function Injection() {
   const [events, setEvents] = React.useState([]);
+  const [logsize, setLogsize] = React.useState(10);
 
   const corsOptions = {
     origin: "*",
@@ -84,7 +86,22 @@ function Injection() {
     <Container>
       <h3 className="page-title">Cloudevent Injection:</h3>
       <h5> Inject Cloudevents into the namespace </h5>
-
+            <Button
+          label="-"
+          onClick={() => {
+            setLogsize(logsize - 5);
+          }}
+        >
+          -
+        </Button>
+        <Button
+          label="+"
+          onClick={() => {
+            setLogsize(logsize + 5);
+          }}
+        >
+          +
+        </Button>
       <Row>
         <InjectionPod destinations={services} />
         <Button
@@ -103,7 +120,7 @@ function Injection() {
                 <CardBody>
                   <div key={index}>
                     <Row>
-                      <JSONPretty json={event} theme={JSONPrettyMon} />
+                      <JSONPretty style={{fontSize: logsize}}  json={event} theme={JSONPrettyMon} />
                     </Row>
                   </div>
                 </CardBody>

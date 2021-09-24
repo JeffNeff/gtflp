@@ -38,7 +38,7 @@ function LogCard(props) {
               return (
                 <div key={index}>
                   <h3 className="bold-text">{podname}</h3>
-                  <JSONPretty json={lm} theme={JSONPrettyMon} />
+                  <JSONPretty style={{fontSize: props.logsize}} json={lm} theme={JSONPrettyMon} />
                 </div>
               );
             })}

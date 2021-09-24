@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
-import {MenuItem,TextField,TableRow,FormControl,Button, TableBody} from "@material-ui/core";
+import {
+  MenuItem,
+  TextField,
+  TableRow,
+  FormControl,
+  Button,
+  TableBody,
+} from "@material-ui/core";
 import { TextArea } from "grommet";
 const axios = require("axios");
 
-
 export default function InjectionPod(props) {
+  const [services, setServices] = useState([]);
 
   function fetchServices() {
     axios
@@ -21,7 +28,7 @@ export default function InjectionPod(props) {
       });
   }
 
-  const destinations = props.destinations;
+  // const destinations = props.destinations;
   const dest = props.destination;
 
   const [id, setID] = React.useState("0123211");
@@ -47,13 +54,13 @@ export default function InjectionPod(props) {
     highlight:
       theme.palette.type === "light"
         ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+            color: theme.palette.secondary.main,
+            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          }
         : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.secondary.dark,
+          },
     title: {
       flex: "1 1 100%",
       paddingLeft: 8,
@@ -61,7 +68,6 @@ export default function InjectionPod(props) {
   }));
 
   const classes = useToolbarStyles();
-
 
   const handleInjection = (event) => {
     axios
@@ -133,10 +139,8 @@ export default function InjectionPod(props) {
       Avalible Destinations:
       <TableRow>
         <FormControl style={divStyle}>
-          <Select
-            onChange={(e) => setDestination(e.target.value)}
-          >
-            {destinations.map((data, index) => (
+          <Select onChange={(e) => setDestination(e.target.value)}>
+            {services.map((data, index) => (
               <MenuItem value={data}>{data}</MenuItem>
             ))}
           </Select>
@@ -150,14 +154,14 @@ export default function InjectionPod(props) {
             onChange={(e) => setDestination(e.target.value)}
           />
         </FormControl>
-      </TableRow>
-      <TableRow>
-      <Button
-          style={{ height: 40, width: 200, marginLeft: "85px" }}
-          onClick={fetchServices}
-        >
-          Refresh Destinations
-        </Button>
+        <TableRow>
+          <Button
+            style={{ height: 40, width: 200, marginLeft: "85px" }}
+            onClick={fetchServices}
+          >
+            Refresh Destinations
+          </Button>
+        </TableRow>
       </TableRow>
       Data:
       <TableRow>

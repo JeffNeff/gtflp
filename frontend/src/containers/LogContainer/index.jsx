@@ -17,15 +17,13 @@ import { Container, Row } from "reactstrap";
 import LogCard from "./components/LogCard";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { Button } from "@material-ui/core";
-
-
+import createPersistedState from "use-persisted-state";
+const useCounterState = createPersistedState("count");
 
 function LogContainer() {
   const [messages, setMessages] = useState([]);
   const [podNames, setPodNames] = useState([]);
-  const [logsize, setLogsize] = useState(15);
-
-
+  const [logsize, setLogsize] = useCounterState(10);
 
   useEffect(() => {
     console.log("Protocol: " + window.location.protocol);
@@ -65,21 +63,21 @@ function LogContainer() {
       <h3 className="page-title">Log Scanner:</h3>
       <h5> Load new pod logs from running resources in the namespace </h5>
       <Button
-          label="-"
-          onClick={() => {
-            setLogsize(logsize - 5);
-          }}
-        >
-          -
-        </Button>
-        <Button
-          label="+"
-          onClick={() => {
-            setLogsize(logsize + 5);
-          }}
-        >
-          +
-        </Button>
+        label="-"
+        onClick={() => {
+          setLogsize(logsize - 5);
+        }}
+      >
+        -
+      </Button>
+      <Button
+        label="+"
+        onClick={() => {
+          setLogsize(logsize + 5);
+        }}
+      >
+        +
+      </Button>
       <Row>
         <LogCard messages={messages} podNames={podNames} logsize={logsize} />
       </Row>

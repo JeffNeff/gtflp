@@ -13,15 +13,29 @@
 Capabilities:
 * Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor pod logs in a single window. 
 
-![](./img/log.png)
+![](./img/ls.png)
 
-* View Cloudevents : View events that are sent directly to the `gtflp` deployment, or via configured triggers.
+* Monitor and Inject Cloudevents : Inject &| view events that are sent directly to the `gtflp` deployment, or configured triggers.
 
-![](./img/event.png)
+![](./img/ce.png)
 
-* Inject Cloudevents : Inject events directly into pods, or into brokers within the namespace. 
+* View active Pods 
 
-![](./img/injection.png)
+![](./img/podless.png)
+
+* View info about the active pods
+
+![](./img/podmore.png)
+
+* View Knative Service deployments
+
+![](./img/ksvcless.png)
+
+* View info about the KSVC deployments
+
+![](./img/ksvcmore.png)
+
+
 
 ## Prerequisites
 

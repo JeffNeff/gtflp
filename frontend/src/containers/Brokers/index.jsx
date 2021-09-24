@@ -47,8 +47,8 @@ function Brokers() {
 
   return (
     <Container>
-      <h3 className="page-title">Pod Viewer:</h3>
-      <h5> View active pod info here! </h5>
+      <h3 className="page-title">Broker Viewer:</h3>
+      <h5> View active broker info here! </h5>
       <Button
         label="-"
         onClick={() => {

@@ -91,6 +91,45 @@ func (c *Controller) FetchVerboseKsvc(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(x)
 }
 
+// FetchBrokers is a handler to return a list of brokers in the current namespace
+func (c *Controller) FetchBrokers(w http.ResponseWriter, r *http.Request) {
+	var brokers []interface{}
+
+	gvr := schema.GroupVersionResource{
+		Group:    "eventing.knative.dev",
+		Version:  "v1",
+		Resource: "brokers",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Printf("Failed to List Brokers, %v", err)
+
+	}
+
+	for _, item := range list.Items {
+		x := "http://broker-ingress.knative-eventing.svc.cluster.local/" + c.namespace + "/" + item.GetName()
+		brokers = append(brokers, x)
+	}
+	json.NewEncoder(w).Encode(brokers)
+}
+
+// FetchVerboseBrokers is a handler to return a list of information about brokers in the current namespace
+func (c *Controller) FetchVerboseBrokers(w http.ResponseWriter, r *http.Request) {
+	gvr := schema.GroupVersionResource{
+		Group:    "eventing.knative.dev",
+		Version:  "v1",
+		Resource: "brokers",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Printf("Failed to List Brokers, %v", err)
+	}
+
+	json.NewEncoder(w).Encode(list)
+}
+
 func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

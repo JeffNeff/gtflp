@@ -36,6 +36,11 @@ const SidebarContent = ({ onClick }) => {
             route="/ksvc"
             onClick={handleHideSidebar}
           />
+          <SidebarLink
+            title="Broker Viewer"
+            route="/Brokers"
+            onClick={handleHideSidebar}
+          />
         </SidebarCategory>
       </ul>
     </div>

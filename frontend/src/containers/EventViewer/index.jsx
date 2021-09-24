@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import createPersistedState from 'use-persisted-state';
+const useCounterState = createPersistedState('count');
 import {  Container, Row } from "reactstrap";
 import { Card, CardBody, Col } from "reactstrap";
 import axios from "axios";
@@ -22,7 +24,7 @@ var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 import { Button } from "@material-ui/core";
 
 function EventViewer() {
-  const [events, setEvents] = React.useState([]);
+  const [events, setEvents] = useCounterState([]);
   const [logsize, setLogsize] = React.useState(10);
 
   const corsOptions = {
@@ -60,7 +62,7 @@ function EventViewer() {
       wsURL = "wss://" + document.location.host + "/ws";
     }
 
-    // wsURL = "ws://localhost:8080/ws"
+    wsURL = "ws://localhost:8080/ws"
 
     console.log("WS URL: " + wsURL);
     let sock = new ReconnectingWebSocket(wsURL);

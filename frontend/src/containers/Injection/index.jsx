@@ -92,7 +92,7 @@ function Injection() {
       >
         Clear Events
       </Button>
-      <Row>
+      <Row style={{ paddingLeft: 20 }}>
         <InjectionPod />
         <Row></Row>
       </Row>

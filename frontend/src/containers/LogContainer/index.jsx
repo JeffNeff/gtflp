@@ -15,14 +15,17 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "reactstrap";
 import LogCard from "./components/LogCard";
-import axios from "axios";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { Button } from "@material-ui/core";
+
+
 
 function LogContainer() {
   const [messages, setMessages] = useState([]);
   const [podNames, setPodNames] = useState([]);
   const [logsize, setLogsize] = useState(15);
+
+
 
   useEffect(() => {
     console.log("Protocol: " + window.location.protocol);
@@ -61,8 +64,7 @@ function LogContainer() {
     <Container>
       <h3 className="page-title">Log Scanner:</h3>
       <h5> Load new pod logs from running resources in the namespace </h5>
-      <Row>
-        <Button
+      <Button
           label="-"
           onClick={() => {
             setLogsize(logsize - 5);
@@ -78,6 +80,7 @@ function LogContainer() {
         >
           +
         </Button>
+      <Row>
         <LogCard messages={messages} podNames={podNames} logsize={logsize} />
       </Row>
     </Container>

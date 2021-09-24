@@ -8,6 +8,19 @@ const axios = require("axios");
 
 
 export default function InjectionPod(props) {
+
+  function fetchServices() {
+    axios
+      .post("/queryservices", {}, corsOptions)
+      .then((response) => {
+        console.log(response.data);
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const destinations = props.destinations;
   const dest = props.destination;
 
@@ -77,14 +90,6 @@ export default function InjectionPod(props) {
 
   return (
     <TableBody>
-      {/* <Typography
-        className={classes.title}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        Injection
-      </Typography> */}
       ID:
       <TableRow>
         <FormControl style={divStyle}>
@@ -129,7 +134,6 @@ export default function InjectionPod(props) {
       <TableRow>
         <FormControl style={divStyle}>
           <Select
-            // value={destination}
             onChange={(e) => setDestination(e.target.value)}
           >
             {destinations.map((data, index) => (
@@ -143,10 +147,17 @@ export default function InjectionPod(props) {
         <FormControl style={divStyle}>
           <TextField
             id="input-injection-add"
-            // value={destination}
             onChange={(e) => setDestination(e.target.value)}
           />
         </FormControl>
+      </TableRow>
+      <TableRow>
+      <Button
+          style={{ height: 40, width: 200, marginLeft: "85px" }}
+          onClick={fetchServices}
+        >
+          Refresh Destinations
+        </Button>
       </TableRow>
       Data:
       <TableRow>

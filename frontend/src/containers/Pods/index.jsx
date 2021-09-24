@@ -15,17 +15,15 @@
 import React, { useEffect } from "react";
 import createPersistedState from "use-persisted-state";
 const useCounterState = createPersistedState("count");
-import { Container, Row } from "reactstrap";
-import { Card, CardBody, Col } from "reactstrap";
+import { Container } from "reactstrap";
 import axios from "axios";
-import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 import { Button } from "@material-ui/core";
 
 function Pods() {
   const [pods, setPods] = React.useState([]);
-  const [logsize, setLogsize] = React.useState(10);
+  const [logsize, setLogsize] = useCounterState(10);
 
   const corsOptions = {
     origin: "*",
@@ -45,9 +43,6 @@ function Pods() {
 
   useEffect(() => {
     fetchPods();
-    return () => {
-      sock.close();
-    };
   }, []);
 
   return (

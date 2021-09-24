@@ -13,28 +13,20 @@
 // limitations under the License.
 
 import React, { useState, useEffect } from "react";
-import createPersistedState from 'use-persisted-state';
-const useCounterState = createPersistedState('count');
 import { Container, Row } from "reactstrap";
 import { Button } from "@material-ui/core";
 import { Card, CardBody, Col } from "reactstrap";
 import InjectionPod from "./components/Injection";
-
+import createPersistedState from "use-persisted-state";
+const useArrayState = createPersistedState("array");
+const useCountertate = createPersistedState("counter");
 import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
-import { Heading } from "grommet";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 
 function Injection() {
-  const [events, setEvents] = useCounterState([]);
-  const [logsize, setLogsize] = React.useState(10);
-  const [services, setServices] = useState([]);
-
-  const corsOptions = {
-    origin: "*",
-  };
-
-
+  const [events, setEvents] = useArrayState([]);
+  const [logsize, setLogsize] = useCountertate(10);
 
   useEffect(() => {
     // this is not working
@@ -65,7 +57,6 @@ function Injection() {
     sock.onmessage = function (e) {
       let t = JSON.parse(e.data);
       console.log(t);
-
       setEvents(events.concat(t));
     };
     return () => {
@@ -73,30 +64,36 @@ function Injection() {
     };
   });
 
-
-
   return (
-    <Container >
+    <Container>
       <h3 className="page-title">Cloudevents:</h3>
-      <h5> Inject and monitor Cloudevents here. </h5>
-            <Button
-          label="-"
-          onClick={() => {
-            setLogsize(logsize - 5);
-          }}
-        >
-          -
-        </Button>
-        <Button
-          label="+"
-          onClick={() => {
-            setLogsize(logsize + 5);
-          }}
-        >
-          +
-        </Button>
-      <Row >
-        <InjectionPod destinations={services}  />
+      <h5> Monitor and inject Cloudevents here! </h5>
+      <Button
+        label="-"
+        onClick={() => {
+          setLogsize(logsize - 5);
+        }}
+      >
+        -
+      </Button>
+      <Button
+        label="+"
+        onClick={() => {
+          setLogsize(logsize + 5);
+        }}
+      >
+        +
+      </Button>
+      <Button
+        label="Clear Events"
+        onClick={() => {
+          setEvents([]);
+        }}
+      >
+        Clear Events
+      </Button>
+      <Row>
+        <InjectionPod />
         <Row></Row>
       </Row>
       <Row>
@@ -106,8 +103,18 @@ function Injection() {
               <Card>
                 <CardBody>
                   <div key={index}>
-                    <Row>
-                      <JSONPretty style={{fontSize: logsize}}  json={event} theme={JSONPrettyMon} />
+                    <Row
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <JSONPretty
+                        style={{ fontSize: logsize }}
+                        json={event}
+                        theme={JSONPrettyMon}
+                      />
                     </Row>
                   </div>
                 </CardBody>

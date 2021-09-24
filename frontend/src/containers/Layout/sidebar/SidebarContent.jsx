@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SidebarLink from './SidebarLink';
-import SidebarCategory from './SidebarCategory';
+import React from "react";
+import PropTypes from "prop-types";
+import SidebarLink from "./SidebarLink";
+import SidebarCategory from "./SidebarCategory";
 
 const SidebarContent = ({ onClick }) => {
   const handleHideSidebar = () => {
@@ -15,10 +15,27 @@ const SidebarContent = ({ onClick }) => {
       </ul> */}
       <ul className="sidebar__block">
         <SidebarCategory title="Tools" icon="diamond">
-          <SidebarLink title="Log Scanner" route="/LogScanner" onClick={handleHideSidebar} />
+          <SidebarLink
+            title="Log Scanner"
+            route="/LogScanner"
+            onClick={handleHideSidebar}
+          />
           {/* <SidebarLink title="Event Viewer" route="/EventViewer" onClick={handleHideSidebar} /> */}
-          <SidebarLink title="Cloud Events" route="/EventInjection" onClick={handleHideSidebar} />
-          <SidebarLink title="Pod Viewer" route="/Pods" onClick={handleHideSidebar} />
+          <SidebarLink
+            title="Cloud Events"
+            route="/EventInjection"
+            onClick={handleHideSidebar}
+          />
+          <SidebarLink
+            title="Pod Viewer"
+            route="/Pods"
+            onClick={handleHideSidebar}
+          />
+          <SidebarLink
+            title="KSVC Viewer"
+            route="/ksvc"
+            onClick={handleHideSidebar}
+          />
         </SidebarCategory>
       </ul>
     </div>

@@ -59,6 +59,14 @@ func main() {
 		c.QueryServicesHandler(w, r)
 	})
 
+	c.Mux().HandleFunc("/fetchPods", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchPodsHandler(w, r)
+	})
+
+	c.Mux().HandleFunc("/fetchVerbosePods", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchVerbosePods(w, r)
+	})
+
 	c.StartLoggingHandler()
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())

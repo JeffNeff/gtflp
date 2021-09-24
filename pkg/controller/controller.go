@@ -48,6 +48,7 @@ func New(root, kubeConfigLocation, cluster string) *Controller {
 	if err != nil {
 		fmt.Printf("Error fetching namespace: %v", err)
 	}
+
 	// dev
 	// namespace = "midimansland"
 
@@ -57,9 +58,7 @@ func New(root, kubeConfigLocation, cluster string) *Controller {
 	}
 
 	servingClient := servingclientset.NewForConfigOrDie(config)
-
 	dc := dynamic.NewForConfigOrDie(config)
-
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		fmt.Println("error in getting access to K8S")
@@ -83,7 +82,6 @@ func (c *Controller) Mux() *http.ServeMux {
 		m.Handle("/lws", websocket.Handler(c.LogsWSHandler))
 		c.mux = m
 	})
-
 	return c.mux
 }
 
@@ -99,7 +97,6 @@ func returnNamespace() (string, error) {
 
 // BuildClientConfig builds the client config specified by the config path and the cluster name
 func BuildClientConfig(kubeConfigPath string, clusterName string) (*rest.Config, error) {
-
 	if cfg, err := clientcmd.BuildConfigFromFlags("", ""); err == nil {
 		// success!
 		return cfg, nil
@@ -118,14 +115,12 @@ func BuildClientConfig(kubeConfigPath string, clusterName string) (*rest.Config,
 }
 
 func (c *Controller) GetPodLogs(namespace string, podName string, containerName string, follow bool) Message {
-	fmt.Println(c.namespace)
 	msg := &Message{}
 	count := int64(500)
 	podLogOptions := v1.PodLogOptions{
 		Container: containerName,
 		TailLines: &count,
 	}
-
 	podLogRequest := c.k8sClient.
 		Pods(c.namespace).
 		GetLogs(podName, &podLogOptions)
@@ -139,20 +134,21 @@ func (c *Controller) GetPodLogs(namespace string, podName string, containerName 
 		return *msg
 
 	}
-	defer stream.Close()
 
+	defer stream.Close()
 	buf := make([]byte, 8000)
 	numBytes, err := stream.Read(buf)
 	if err == io.EOF {
 		return *msg
 	}
+
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	msg = &Message{
 		Message: string(buf[:numBytes]),
 		Pod:     podName,
 	}
-
 	return *msg
 }

@@ -40,7 +40,7 @@ subjects:
   - kind: ServiceAccount
     name: gtflp
     # UPDATE THIS TO MATCH YOUR NAMESPACE:
-    namespace: demo
+    namespace: midimansland
 ---
 apiVersion: eventing.knative.dev/v1
 kind: Trigger

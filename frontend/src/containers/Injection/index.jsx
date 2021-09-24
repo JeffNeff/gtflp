@@ -77,8 +77,8 @@ function Injection() {
 
   return (
     <Container >
-      <h3 className="page-title">Cloudevent Injection:</h3>
-      <h5> Inject Cloudevents into the namespace </h5>
+      <h3 className="page-title">Cloudevents:</h3>
+      <h5> Inject and monitor Cloudevents here. </h5>
             <Button
           label="-"
           onClick={() => {

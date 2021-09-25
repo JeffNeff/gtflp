@@ -146,10 +146,10 @@ func (c *Controller) FetchTriggers(w http.ResponseWriter, r *http.Request) {
 		Resource: "triggers",
 	}
 
-	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		fmt.Printf("Failed to List Triggers, %v", err)
-		json.NewEncoder(w).Encode(fmt.Errorf("Failed to List Triggers, %v", err))
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Triggers, %v", err))
 	}
 
 	for _, item := range list.Items {
@@ -166,10 +166,10 @@ func (c *Controller) FetchVerboseTriggers(w http.ResponseWriter, r *http.Request
 		Resource: "triggers",
 	}
 
-	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		fmt.Printf("Failed to List Triggers, %v", err)
-		json.NewEncoder(w).Encode(fmt.Errorf("Failed to List Triggers, %v", err))
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Triggers, %v", err))
 	}
 
 	json.NewEncoder(w).Encode(list)

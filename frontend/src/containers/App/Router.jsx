@@ -18,7 +18,6 @@ import Layout from "../Layout/index";
 import MainWrapper from "./MainWrapper";
 
 import LogContainer from "../LogContainer";
-import EventViewer from "../EventViewer";
 import Injection from "../Injection";
 import Pods from "../Pods";
 import Ksvc from "../Ksvc";
@@ -30,7 +29,6 @@ const wrappedRoutes = () => (
     <Layout />
     <div className="container__wrap">
       <Route path="/LogScanner" component={LogContainer} />
-      <Route path="/EventViewer" component={EventViewer} />
       <Route path="/EventInjection" component={Injection} />
       <Route path="/Pods" component={Pods} />
       <Route path="/Ksvc" component={Ksvc} />

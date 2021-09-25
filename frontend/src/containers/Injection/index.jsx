@@ -14,19 +14,24 @@
 
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "reactstrap";
-import { Button } from "@material-ui/core";
+import { Button, Select, MenuItem} from "@material-ui/core";
 import { Card, CardBody, Col } from "reactstrap";
 import InjectionPod from "./components/Injection";
 import createPersistedState from "use-persisted-state";
 const useArrayState = createPersistedState("array");
 const useCountertate = createPersistedState("counter");
+const useStringState = createPersistedState("string");
 import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
+var JSONPretty1337 = require("react-json-pretty/dist/1337");
+var JSONPrettyAcai = require("react-json-pretty/dist/acai");
+var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 
 function Injection() {
   const [events, setEvents] = useArrayState([]);
   const [logsize, setLogsize] = useCountertate(10);
+  const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
 
   useEffect(() => {
     // this is not working
@@ -92,6 +97,16 @@ function Injection() {
       >
         Clear Events
       </Button>
+     Theme: 
+      <Select
+        value={themeClassName}
+        onChange={(e) => setThemeClassName(e.target.value)}
+      >
+        <MenuItem value={JSONPrettyMon}>PrettyMon</MenuItem>
+        <MenuItem value={JSONPretty1337}>1337</MenuItem>
+        <MenuItem value={JSONPrettyAcai}>acai</MenuItem>
+        <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
+      </Select>
       <Row style={{ paddingLeft: 20 }}>
         <InjectionPod />
         <Row></Row>
@@ -113,7 +128,7 @@ function Injection() {
                       <JSONPretty
                         style={{ fontSize: logsize }}
                         json={event}
-                        theme={JSONPrettyMon}
+                        theme={themeClassName}
                       />
                     </Row>
                   </div>

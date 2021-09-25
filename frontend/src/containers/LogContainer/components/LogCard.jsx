@@ -15,7 +15,7 @@
 import React, { useState, useEffect } from "react";
 import JSONPretty from "react-json-pretty";
 import { Card, CardBody, Col } from "reactstrap";
-var JSONPrettyMon = require("react-json-pretty/dist/monikai");
+
 
 function LogCard(props) {
   return (
@@ -38,7 +38,7 @@ function LogCard(props) {
               return (
                 <div key={index}>
                   <h3 className="bold-text">{podname}</h3>
-                  <JSONPretty style={{fontSize: props.logsize}} json={lm} theme={JSONPrettyMon} />
+                  <JSONPretty style={{fontSize: props.logsize}} json={lm} theme={props.theme} />
                 </div>
               );
             })}

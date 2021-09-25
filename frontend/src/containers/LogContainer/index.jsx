@@ -16,14 +16,21 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "reactstrap";
 import LogCard from "./components/LogCard";
 import ReconnectingWebSocket from "reconnecting-websocket";
-import { Button } from "@material-ui/core";
+import { Button, Select, MenuItem } from "@material-ui/core";
 import createPersistedState from "use-persisted-state";
 const useCounterState = createPersistedState("count");
+const useStringState = createPersistedState("string");
+var JSONPrettyMon = require("react-json-pretty/dist/monikai");
+var JSONPretty1337 = require("react-json-pretty/dist/1337");
+var JSONPrettyAcai = require("react-json-pretty/dist/acai");
+var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
+
 
 function LogContainer() {
   const [messages, setMessages] = useState([]);
   const [podNames, setPodNames] = useState([]);
   const [logsize, setLogsize] = useCounterState(10);
+  const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
 
   useEffect(() => {
     console.log("Protocol: " + window.location.protocol);
@@ -78,8 +85,18 @@ function LogContainer() {
       >
         +
       </Button>
+      Theme: 
+      <Select
+        value={themeClassName}
+        onChange={(e) => setThemeClassName(e.target.value)}
+      >
+        <MenuItem value={JSONPrettyMon}>PrettyMon</MenuItem>
+        <MenuItem value={JSONPretty1337}>1337</MenuItem>
+        <MenuItem value={JSONPrettyAcai}>acai</MenuItem>
+        <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
+      </Select>
       <Row>
-        <LogCard messages={messages} podNames={podNames} logsize={logsize} />
+        <LogCard messages={messages} podNames={podNames} logsize={logsize} theme={themeClassName}/>
       </Row>
     </Container>
   );

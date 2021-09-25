@@ -46,6 +46,7 @@ func (c *Controller) FetchPodsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Failed to List Pods, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Pods, %v", err))
+		return
 	}
 	var pods []string
 	for _, pod := range l.Items {
@@ -62,6 +63,7 @@ func (c *Controller) FetchVerbosePods(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Failed to List Pods, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Pods, %v", err))
+		return
 	}
 
 	json.NewEncoder(w).Encode(l)
@@ -76,6 +78,7 @@ func (c *Controller) FetchKsvc(w http.ResponseWriter, r *http.Request) {
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Services, %v", err))
+		return
 	}
 
 	for _, y := range x.Items {
@@ -92,6 +95,7 @@ func (c *Controller) FetchVerboseKsvc(w http.ResponseWriter, r *http.Request) {
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Services, %v", err))
+		return
 	}
 
 	json.NewEncoder(w).Encode(x)
@@ -108,8 +112,9 @@ func (c *Controller) FetchBrokers(w http.ResponseWriter, r *http.Request) {
 
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		fmt.Printf("Failed to List Brokers, %v", err)
+		fmt.Println("Failed to List Brokers, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Brokers, %v", err))
+		return
 
 	}
 
@@ -130,8 +135,9 @@ func (c *Controller) FetchVerboseBrokers(w http.ResponseWriter, r *http.Request)
 
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		fmt.Printf("Failed to List Brokers, %v", err)
+		fmt.Println("Failed to List Brokers, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Brokers, %v", err))
+		return
 	}
 
 	json.NewEncoder(w).Encode(list)
@@ -148,8 +154,9 @@ func (c *Controller) FetchTriggers(w http.ResponseWriter, r *http.Request) {
 
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
 	if err != nil {
-		fmt.Printf("Failed to List Triggers, %v", err)
+		fmt.Println("Failed to List Triggers, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Triggers, %v", err))
+		return
 	}
 
 	for _, item := range list.Items {
@@ -168,8 +175,49 @@ func (c *Controller) FetchVerboseTriggers(w http.ResponseWriter, r *http.Request
 
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
 	if err != nil {
-		fmt.Printf("Failed to List Triggers, %v", err)
+		fmt.Println("Failed to List Triggers, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Triggers, %v", err))
+		return
+	}
+
+	json.NewEncoder(w).Encode(list)
+}
+
+// FetchBridges is a handler to return a list of Bridges in the current namespace
+func (c *Controller) FetchBridges(w http.ResponseWriter, r *http.Request) {
+	var bridge []interface{}
+	gvr := schema.GroupVersionResource{
+		Group:    "flow.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "bridges",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Bridges, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Bridges, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		bridge = append(bridge, item.GetName())
+	}
+	json.NewEncoder(w).Encode(bridge)
+}
+
+// FetchVerboseBridges is a handler to return info about Bridges in the current namespace
+func (c *Controller) FetchVerboseBridges(w http.ResponseWriter, r *http.Request) {
+	gvr := schema.GroupVersionResource{
+		Group:    "flow.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "bridges",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Bridges, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Bridges, %v", err))
+		return
 	}
 
 	json.NewEncoder(w).Encode(list)
@@ -182,13 +230,15 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Printf("Error occured reading body: %v", err)
+		fmt.Println("Error occured reading body: %v", err)
 		json.NewEncoder(w).Encode("Failure reding request")
+		return
 	}
 	ip := &injectionPayload{}
 	if err := json.Unmarshal(body, ip); err != nil {
-		fmt.Printf("Error occured unmarsaling data: %v", err)
+		fmt.Println("Error occured unmarsaling data: %v", err)
 		json.NewEncoder(w).Encode("Failure unmarshaling request")
+		return
 	}
 
 	eventToSend := cloudevents.NewEvent()
@@ -201,10 +251,12 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := cloudevents.ContextWithTarget(context.Background(), ip.Destination)
 
 	if result := c.ceClient.Send(ctx, eventToSend); cloudevents.IsUndelivered(result) {
-		fmt.Printf("failed to send, %v", result)
+		fmt.Println("failed to send, %v", result)
+		json.NewEncoder(w).Encode(fmt.Sprintf("failed to send, %v", result))
+		return
 	}
 
-	fmt.Printf("sent Event to: %v", ip.Destination)
+	fmt.Println("sent Event to: %v", ip.Destination)
 	fmt.Println("")
 	fmt.Println(eventToSend)
 }
@@ -216,8 +268,9 @@ func (c *Controller) QueryServicesHandler(w http.ResponseWriter, r *http.Request
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		fmt.Printf("Failed to List Services, %v", err)
+		fmt.Println("Failed to List Services, %v", err)
 		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Services, %v", err))
+		return
 	}
 
 	var services []interface{}
@@ -233,8 +286,9 @@ func (c *Controller) QueryServicesHandler(w http.ResponseWriter, r *http.Request
 
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		fmt.Printf("Failed to List Brokers, %v", err)
-
+		fmt.Println("Failed to List Brokers, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Brokers, %v", err))
+		return
 	}
 
 	for _, item := range list.Items {

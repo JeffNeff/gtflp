@@ -51,6 +51,14 @@ Capabilities:
 
 ![](./img/triggermore.png)
 
+* View Bridges 
+
+![](./img/bridgeless.png)
+
+* View info about the Bridges
+
+![](./img/bridgemore.png)
+
 
 
 ## Prerequisites
@@ -75,7 +83,7 @@ Capabilities:
 
 1. Download the `release.yaml` from the most current [releases.](https://github.com/JeffNeff/gtflp/releases) 
 
-1. Update line 43 of file `release.yaml` with the correct namespace.
+1. Update line 46 of file `release.yaml` with the correct namespace.
 
 1. Apply the manifest:
 
@@ -155,7 +163,7 @@ Or
   
     make release
     
-1. Update line 43 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace before applying. 
+1. Update line 46 of file [gtflp.yaml](./config/gtflp.yaml ) with the correct namespace before applying. 
 
 **Note** If you leave the deployment name as `gtflp` then the logs will be hidden from the ui. 
 If you want to show logs from the `gtflp` pod, then chagne the name of the deployment to something else. 

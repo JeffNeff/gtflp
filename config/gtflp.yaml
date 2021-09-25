@@ -24,6 +24,7 @@ rules:
       - "replicasets" 
       - "routes"
       - "brokers"
+      - "triggers"
     verbs:
       - get
       - list

@@ -56,6 +56,11 @@ const SidebarContent = ({ onClick }) => {
             route="/Sources"
             onClick={handleHideSidebar}
           />
+          <SidebarLink
+            title="Fetch Resource by GVR"
+            route="/CGVR"
+            onClick={handleHideSidebar}
+          />
         </SidebarCategory>
       </ul>
     </div>

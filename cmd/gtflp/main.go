@@ -97,6 +97,14 @@ func main() {
 		c.FetchVerboseBrokers(w, r)
 	})
 
+	c.Mux().HandleFunc("/fetchTriggers", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchTriggers(w, r)
+	})
+
+	c.Mux().HandleFunc("/fetchVerboseTriggers", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchVerboseTriggers(w, r)
+	})
+
 	c.StartLoggingHandler()
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())

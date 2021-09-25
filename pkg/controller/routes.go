@@ -42,7 +42,11 @@ func (c *Controller) RootHandler(w http.ResponseWriter, r *http.Request) {
 func (c *Controller) FetchPodsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	l, _ := c.k8sClient.Pods(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	l, err := c.k8sClient.Pods(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Pods, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Pods, %v", err))
+	}
 	var pods []string
 	for _, pod := range l.Items {
 		pods = append(pods, pod.Name)
@@ -54,23 +58,27 @@ func (c *Controller) FetchPodsHandler(w http.ResponseWriter, r *http.Request) {
 func (c *Controller) FetchVerbosePods(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	l, _ := c.k8sClient.Pods(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	l, err := c.k8sClient.Pods(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Pods, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Pods, %v", err))
+	}
 
 	json.NewEncoder(w).Encode(l)
 }
 
 // FetchKsvc is a handler to return a list of services in the current namespace
 func (c *Controller) FetchKsvc(w http.ResponseWriter, r *http.Request) {
+	var services []interface{}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Services, %v", err))
 	}
 
-	var services []interface{}
 	for _, y := range x.Items {
 		services = append(services, y.Status.URL)
 	}
@@ -85,7 +93,7 @@ func (c *Controller) FetchVerboseKsvc(w http.ResponseWriter, r *http.Request) {
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Services, %v", err))
 	}
 
 	json.NewEncoder(w).Encode(x)
@@ -104,6 +112,7 @@ func (c *Controller) FetchBrokers(w http.ResponseWriter, r *http.Request) {
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		fmt.Printf("Failed to List Brokers, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Brokers, %v", err))
 
 	}
 
@@ -125,6 +134,45 @@ func (c *Controller) FetchVerboseBrokers(w http.ResponseWriter, r *http.Request)
 	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		fmt.Printf("Failed to List Brokers, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Brokers, %v", err))
+	}
+
+	json.NewEncoder(w).Encode(list)
+}
+
+// FetchTriggers is a handler to return a list of triggers in the current namespace
+func (c *Controller) FetchTriggers(w http.ResponseWriter, r *http.Request) {
+	var triggers []interface{}
+	gvr := schema.GroupVersionResource{
+		Group:    "eventing.knative.dev",
+		Version:  "v1",
+		Resource: "triggers",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Printf("Failed to List Triggers, %v", err)
+		json.NewEncoder(w).Encode(fmt.Errorf("Failed to List Triggers, %v", err))
+	}
+
+	for _, item := range list.Items {
+		triggers = append(triggers, item.GetName())
+	}
+	json.NewEncoder(w).Encode(triggers)
+}
+
+// FetchVerboseTriggers is a handler to return a list of triggers in the current namespace
+func (c *Controller) FetchVerboseTriggers(w http.ResponseWriter, r *http.Request) {
+	gvr := schema.GroupVersionResource{
+		Group:    "eventing.knative.dev",
+		Version:  "v1",
+		Resource: "triggers",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Printf("Failed to List Triggers, %v", err)
+		json.NewEncoder(w).Encode(fmt.Errorf("Failed to List Triggers, %v", err))
 	}
 
 	json.NewEncoder(w).Encode(list)
@@ -143,7 +191,7 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	ip := &injectionPayload{}
 	if err := json.Unmarshal(body, ip); err != nil {
 		fmt.Printf("Error occured unmarsaling data: %v", err)
-		return
+		json.NewEncoder(w).Encode("Failure unmarshaling request")
 	}
 
 	eventToSend := cloudevents.NewEvent()
@@ -172,7 +220,8 @@ func (c *Controller) QueryServicesHandler(w http.ResponseWriter, r *http.Request
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		panic(err)
+		fmt.Printf("Failed to List Services, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Services, %v", err))
 	}
 
 	var services []interface{}
@@ -212,10 +261,6 @@ func (c *Controller) StartLoggingHandler() {
 
 				msg := c.GetPodLogs(c.namespace, pod.Name, pod.Spec.Containers[0].Name, true)
 				if !ContainsLogs(c.oldLogs, msg.Message) {
-					// err := .Ws.WriteJSON(msg)
-					// if err != nil {
-					// 	fmt.Printf("error occurred writing json to webhook: %v", err)
-					// }
 					logsManager.send(msg)
 
 					c.oldLogs = append(c.oldLogs, msg.Message)

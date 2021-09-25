@@ -41,6 +41,11 @@ const SidebarContent = ({ onClick }) => {
             route="/Brokers"
             onClick={handleHideSidebar}
           />
+          <SidebarLink
+            title="Trigger Viewer"
+            route="/Triggers"
+            onClick={handleHideSidebar}
+          />
         </SidebarCategory>
       </ul>
     </div>

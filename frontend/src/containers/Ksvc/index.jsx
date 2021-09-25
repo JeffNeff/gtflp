@@ -15,17 +15,20 @@
 import React, { useEffect } from "react";
 import createPersistedState from "use-persisted-state";
 const useCounterState = createPersistedState("count");
+const useStringState = createPersistedState("string");
 import { Container, Row } from "reactstrap";
-import { Card, CardBody, Col } from "reactstrap";
 import axios from "axios";
-import ReconnectingWebSocket from "reconnecting-websocket";
 import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
-import { Button } from "@material-ui/core";
+var JSONPretty1337 = require("react-json-pretty/dist/1337");
+var JSONPrettyAcai = require("react-json-pretty/dist/acai");
+var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
+import { Button, Select, MenuItem } from "@material-ui/core";
 
 function Ksvc() {
   const [pods, setPods] = React.useState([]);
   const [logsize, setLogsize] = useCounterState(10);
+  const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
 
   const corsOptions = {
     origin: "*",
@@ -93,10 +96,20 @@ function Ksvc() {
       >
         Less Info
       </Button>
+      Theme: 
+      <Select
+        value={themeClassName}
+        onChange={(e) => setThemeClassName(e.target.value)}
+      >
+        <MenuItem value={JSONPrettyMon}>PrettyMon</MenuItem>
+        <MenuItem value={JSONPretty1337}>1337</MenuItem>
+        <MenuItem value={JSONPrettyAcai}>acai</MenuItem>
+        <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
+      </Select>
       <JSONPretty
         style={{ fontSize: logsize }}
         json={pods}
-        theme={JSONPrettyMon}
+        theme={themeClassName}
       />
     </Container>
   );

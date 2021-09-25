@@ -15,15 +15,20 @@
 import React, { useEffect } from "react";
 import createPersistedState from "use-persisted-state";
 const useCounterState = createPersistedState("count");
+const useStringState = createPersistedState("string");
 import { Container } from "reactstrap";
 import axios from "axios";
 import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
-import { Button } from "@material-ui/core";
+var JSONPretty1337 = require("react-json-pretty/dist/1337");
+var JSONPrettyAcai = require("react-json-pretty/dist/acai");
+var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
+import { Button, Select, MenuItem } from "@material-ui/core";
 
 function Triggers() {
   const [triggers, setTriggers] = React.useState([]);
   const [logsize, setLogsize] = useCounterState(10);
+  const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
 
   const corsOptions = {
     origin: "*",
@@ -89,10 +94,20 @@ function Triggers() {
       >
         Less Info
       </Button>
+      Theme:
+      <Select
+        value={themeClassName}
+        onChange={(e) => setThemeClassName(e.target.value)}
+      >
+        <MenuItem value={JSONPrettyMon}>PrettyMon</MenuItem>
+        <MenuItem value={JSONPretty1337}>1337</MenuItem>
+        <MenuItem value={JSONPrettyAcai}>acai</MenuItem>
+        <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
+      </Select>
       <JSONPretty
         style={{ fontSize: logsize }}
         json={triggers}
-        theme={JSONPrettyMon}
+        theme={themeClassName}
       />
     </Container>
   );

@@ -67,6 +67,14 @@ Capabilities:
 
 ![](./img/sourcemore.png)
 
+* List resources by providing a custom Grop Version Resource
+
+![](./img/gvrless.png)
+
+* View information about resources by providing a custom Grop Version Resource
+
+![](./img/gvrmore.png)
+
 
 
 ## Prerequisites

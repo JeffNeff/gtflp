@@ -121,6 +121,14 @@ func main() {
 		c.FetchVerboseSources(w, r)
 	})
 
+	c.Mux().HandleFunc("/fetchCGVR", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchCGVR(w, r)
+	})
+
+	c.Mux().HandleFunc("/fetchVerboseCGVR", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchVerboseCGVR(w, r)
+	})
+
 	c.StartLoggingHandler()
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())

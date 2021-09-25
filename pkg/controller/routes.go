@@ -1241,6 +1241,80 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(eventToSend)
 }
 
+// FetchCGVR is a handler to return a list of  about a provided GVR in the current namespace
+func (c *Controller) FetchCGVR(w http.ResponseWriter, r *http.Request) {
+	var cgvrResponse []interface{}
+	cgvr := &CGVRpayload{}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error occured reading body: %v", err)
+		json.NewEncoder(w).Encode("Failure reding request")
+		return
+	}
+
+	if err := json.Unmarshal(body, cgvr); err != nil {
+		fmt.Println("Error occured unmarsaling data: %v", err)
+		json.NewEncoder(w).Encode("Failure unmarshaling request")
+		return
+	}
+
+	gvr := schema.GroupVersionResource{
+		Group:    cgvr.Group,
+		Version:  cgvr.Version,
+		Resource: cgvr.Resource,
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List CGVR, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Custom GVR: , %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		cgvrResponse = append(cgvrResponse, item.GetName())
+	}
+
+	json.NewEncoder(w).Encode(cgvrResponse)
+}
+
+// FetchVerboseCGVR is a handler to return a detailed list of items about a provided GVR in the current namespace
+func (c *Controller) FetchVerboseCGVR(w http.ResponseWriter, r *http.Request) {
+	cgvr := &CGVRpayload{}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error occured reading body: %v", err)
+		json.NewEncoder(w).Encode("Failure reding request")
+		return
+	}
+
+	if err := json.Unmarshal(body, cgvr); err != nil {
+		fmt.Println("Error occured unmarsaling data: %v", err)
+		json.NewEncoder(w).Encode("Failure unmarshaling request")
+		return
+	}
+
+	gvr := schema.GroupVersionResource{
+		Group:    cgvr.Group,
+		Version:  cgvr.Version,
+		Resource: cgvr.Resource,
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List VerboseCGVR, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List Custom GVR: , %v", err))
+		return
+	}
+
+	json.NewEncoder(w).Encode(list)
+}
+
 // QueryServicesHandler is a handler to return a list of services in the current namespace
 func (c *Controller) QueryServicesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")

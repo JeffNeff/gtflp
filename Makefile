@@ -27,6 +27,7 @@ release:
 	@ko resolve -f config/ > release.yaml
 
 debug:
+	@make update-static
 	@KO_DATA_PATH=cmd/gtflp/kodata/ DEV=true go run ./cmd/gtflp
 
 image:

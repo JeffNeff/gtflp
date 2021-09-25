@@ -25,3 +25,9 @@ type injectionPayload struct {
 		ContentType   string `json:"Content-Type"`
 	} `json:"headers"`
 }
+
+type CGVRpayload struct {
+	Group    string `json:"group"`
+	Version  string `json:"version"`
+	Resource string `json:"resource"`
+}

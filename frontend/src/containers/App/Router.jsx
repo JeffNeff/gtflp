@@ -25,6 +25,7 @@ import Brokers from "../Brokers";
 import Triggers from "../Triggers";
 import Bridges from "../Bridges";
 import Sources from "../Sources";
+import CGVR from "../CGVR";
 
 const wrappedRoutes = () => (
   <div>
@@ -38,6 +39,7 @@ const wrappedRoutes = () => (
       <Route path="/Triggers" component={Triggers} />
       <Route path="/Bridges" component={Bridges} />
       <Route path="/Sources" component={Sources} />
+      <Route path="/CGVR" component={CGVR} />
     </div>
   </div>
 );

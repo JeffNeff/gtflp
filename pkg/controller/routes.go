@@ -223,6 +223,986 @@ func (c *Controller) FetchVerboseBridges(w http.ResponseWriter, r *http.Request)
 	json.NewEncoder(w).Encode(list)
 }
 
+// FetchSources is a handler to return a list of Sources in the current namespace
+func (c *Controller) FetchSources(w http.ResponseWriter, r *http.Request) {
+	var source []interface{}
+	gvr := schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azureactivitylogssources",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List azureactivitylogssources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureactivitylogssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "twiliosources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List twiliosources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azureblobstoragesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureblobstoragesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	// list = nil
+	// gvr = schema.GroupVersionResource{
+	// 	Group:    "sources.triggermesh.io",
+	// 	Version:  "v1alpha1",
+	// 	Resource: "azureeventgridsources",
+	// }
+
+	// list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	// if err != nil {
+	// 	fmt.Println("Failed to List Sources, %v", err)
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureeventgridsources, %v", err))
+	// 	return
+	// }
+
+	// for _, item := range list.Items {
+	// 	source = append(source, item.GetName())
+	// }
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azureeventhubsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureeventhubsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azurequeuestoragesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azurequeuestoragesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	// list = nil
+	// gvr = schema.GroupVersionResource{
+	// 	Group:    "sources.triggermesh.io",
+	// 	Version:  "v1alpha1",
+	// 	Resource: "googlecloudauditlogssources",
+	// }
+
+	// list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	// if err != nil {
+	// 	fmt.Println("Failed to List Sources, %v", err)
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudauditlogssources, %v", err))
+	// 	return
+	// }
+	// for _, item := range list.Items {
+	// 	source = append(source, item.GetName())
+	// }
+
+	// list = nil
+	// gvr = schema.GroupVersionResource{
+	// 	Group:    "sources.triggermesh.io",
+	// 	Version:  "v1alpha1",
+	// 	Resource: "googlecloudbillingsources",
+	// }
+
+	// list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	// if err != nil {
+	// 	fmt.Println("Failed to List Sources, %v", err)
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudbillingsources, %v", err))
+	// 	return
+	// }
+
+	// for _, item := range list.Items {
+	// 	source = append(source, item.GetName())
+	// }
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "googlecloudpubsubsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudpubsubsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "googlecloudstoragesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudstoragesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "ocimetricssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List ocimetricssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "salesforcesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List salesforcesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "httppollersources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List httppollersources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "slacksources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List slacksources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "webhooksources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List webhooksources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "zendesksources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List zendesksources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscloudwatchsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscloudwatchsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscloudwatchlogssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscloudwatchlogssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscodecommitsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscodecommitsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscognitoidentitysources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscognitoidentitysources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscognitouserpoolsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscognitouserpoolsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awsdynamodbsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscognitouserpoolsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awskinesissources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awskinesissources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awsperformanceinsightssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awsperformanceinsightssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awss3sources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awsperformanceinsightssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awssnssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awssnssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awssqssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awssqssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	json.NewEncoder(w).Encode(source)
+}
+
+// FetchVerboseSources is a handler to return info about Sources in the current namespace
+func (c *Controller) FetchVerboseSources(w http.ResponseWriter, r *http.Request) {
+	var source []interface{}
+	gvr := schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azureactivitylogssources",
+	}
+
+	list, err := c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List azureactivitylogssources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureactivitylogssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "twiliosources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List twiliosources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azureblobstoragesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureblobstoragesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	// list = nil
+	// gvr = schema.GroupVersionResource{
+	// 	Group:    "sources.triggermesh.io",
+	// 	Version:  "v1alpha1",
+	// 	Resource: "azureeventgridsources",
+	// }
+
+	// list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	// if err != nil {
+	// 	fmt.Println("Failed to List Sources, %v", err)
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureeventgridsources, %v", err))
+	// 	return
+	// }
+
+	// for _, item := range list.Items {
+	// 	source = append(source, item)
+	// }
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azureeventhubsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azureeventhubsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "azurequeuestoragesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List azurequeuestoragesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	// list = nil
+	// gvr = schema.GroupVersionResource{
+	// 	Group:    "sources.triggermesh.io",
+	// 	Version:  "v1alpha1",
+	// 	Resource: "googlecloudauditlogssources",
+	// }
+
+	// list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	// if err != nil {
+	// 	fmt.Println("Failed to List Sources, %v", err)
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudauditlogssources, %v", err))
+	// 	return
+	// }
+	// for _, item := range list.Items {
+	// 	source = append(source, item)
+	// }
+
+	// list = nil
+	// gvr = schema.GroupVersionResource{
+	// 	Group:    "sources.triggermesh.io",
+	// 	Version:  "v1alpha1",
+	// 	Resource: "googlecloudbillingsources",
+	// }
+
+	// list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	// if err != nil {
+	// 	fmt.Println("Failed to List Sources, %v", err)
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudbillingsources, %v", err))
+	// 	return
+	// }
+
+	// for _, item := range list.Items {
+	// 	source = append(source, item)
+	// }
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "googlecloudpubsubsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudpubsubsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "googlecloudstoragesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List googlecloudstoragesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "ocimetricssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List ocimetricssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "salesforcesources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List salesforcesources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "httppollersources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List httppollersources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "slacksources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List slacksources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "webhooksources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List webhooksources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "zendesksources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List zendesksources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscloudwatchsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscloudwatchsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscloudwatchlogssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscloudwatchlogssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscodecommitsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscodecommitsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscognitoidentitysources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscognitoidentitysources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awscognitouserpoolsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscognitouserpoolsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awsdynamodbsources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awscognitouserpoolsources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awskinesissources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awskinesissources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awsperformanceinsightssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awsperformanceinsightssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awss3sources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awsperformanceinsightssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awssnssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awssnssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item)
+	}
+
+	list = nil
+	gvr = schema.GroupVersionResource{
+		Group:    "sources.triggermesh.io",
+		Version:  "v1alpha1",
+		Resource: "awssqssources",
+	}
+
+	list, err = c.dC.Resource(gvr).Namespace(c.namespace).List(context.Background(), metav1.ListOptions{})
+	if err != nil {
+		fmt.Println("Failed to List Sources, %v", err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("Failed to List awssqssources, %v", err))
+		return
+	}
+
+	for _, item := range list.Items {
+		source = append(source, item.GetName())
+	}
+
+	json.NewEncoder(w).Encode(source)
+}
+
 func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

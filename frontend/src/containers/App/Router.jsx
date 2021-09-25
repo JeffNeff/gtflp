@@ -23,6 +23,7 @@ import Pods from "../Pods";
 import Ksvc from "../Ksvc";
 import Brokers from "../Brokers";
 import Triggers from "../Triggers";
+import Bridges from "../Bridges";
 
 const wrappedRoutes = () => (
   <div>
@@ -34,6 +35,7 @@ const wrappedRoutes = () => (
       <Route path="/Ksvc" component={Ksvc} />
       <Route path="/Brokers" component={Brokers} />
       <Route path="/Triggers" component={Triggers} />
+      <Route path="/Bridges" component={Bridges} />
     </div>
   </div>
 );

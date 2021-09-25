@@ -105,6 +105,14 @@ func main() {
 		c.FetchVerboseTriggers(w, r)
 	})
 
+	c.Mux().HandleFunc("/fetchBridges", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchBridges(w, r)
+	})
+
+	c.Mux().HandleFunc("/fetchVerboseBridges", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchVerboseBridges(w, r)
+	})
+
 	c.StartLoggingHandler()
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())

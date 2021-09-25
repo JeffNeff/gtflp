@@ -72,7 +72,6 @@ func (c *Controller) FetchKsvc(w http.ResponseWriter, r *http.Request) {
 	var services []interface{}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
@@ -89,7 +88,6 @@ func (c *Controller) FetchKsvc(w http.ResponseWriter, r *http.Request) {
 func (c *Controller) FetchVerboseKsvc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
@@ -102,7 +100,6 @@ func (c *Controller) FetchVerboseKsvc(w http.ResponseWriter, r *http.Request) {
 // FetchBrokers is a handler to return a list of brokers in the current namespace
 func (c *Controller) FetchBrokers(w http.ResponseWriter, r *http.Request) {
 	var brokers []interface{}
-
 	gvr := schema.GroupVersionResource{
 		Group:    "eventing.knative.dev",
 		Version:  "v1",
@@ -216,7 +213,6 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 func (c *Controller) QueryServicesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
 	resources := c.servingClient.ServingV1().Routes(c.namespace)
 	x, err := resources.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
@@ -258,11 +254,9 @@ func (c *Controller) StartLoggingHandler() {
 				panic(err)
 			}
 			for _, pod := range pds.Items {
-
 				msg := c.GetPodLogs(c.namespace, pod.Name, pod.Spec.Containers[0].Name, true)
 				if !ContainsLogs(c.oldLogs, msg.Message) {
 					logsManager.send(msg)
-
 					c.oldLogs = append(c.oldLogs, msg.Message)
 				}
 				time.Sleep(time.Second * 2)
@@ -274,9 +268,6 @@ func (c *Controller) StartLoggingHandler() {
 
 func (c *Controller) CeHandler(event cloudevents.Event) {
 	fmt.Println("got", event.String())
-
-	// TODO: cloudevents needs a websocket transport.
-
 	b, err := json.Marshal(event)
 	if err != nil {
 		fmt.Println("err", err)
@@ -284,7 +275,6 @@ func (c *Controller) CeHandler(event cloudevents.Event) {
 	}
 
 	manager.broadcast <- string(b)
-
 }
 
 func ContainsLogs(slice []string, val string) bool {

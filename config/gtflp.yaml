@@ -16,17 +16,45 @@ rules:
       - eventing.knative.dev
       - ""
       - flow.triggermesh.io
+      - sources.triggermesh.io
     resources:
-      - "pods/log" 
-      - "events" 
-      - "nodes" 
-      - "pods" 
-      - "deployments" 
-      - "replicasets" 
-      - "routes"
-      - "brokers"
-      - "triggers"
-      - "bridges"
+      - pods/log
+      - events
+      - nodes
+      - pods
+      - deployments
+      - replicasets
+      - routes
+      - brokers
+      - triggers
+      - bridges
+      - azureactivitylogssources
+      - azureblobstoragesources
+      - azureeventgridsources
+      - azureeventhubsources
+      - azurequeuestoragesources
+      - googlecloudauditlogssources
+      - googlecloudbillingsources
+      - googlecloudpubsubsources
+      - googlecloudstoragesources
+      - ocimetricssources
+      - salesforcesources
+      - twiliosources
+      - httppollersources
+      - slacksources
+      - webhooksources
+      - zendesksources
+      - awscloudwatchlogssources
+      - awscloudwatchsources
+      - awscodecommitsources
+      - awscognitoidentitysources
+      - awscognitouserpoolsources
+      - awsdynamodbsources
+      - awskinesissources
+      - awsperformanceinsightssources
+      - awss3sources
+      - awssnssources
+      - awssqssources
     verbs:
       - get
       - list

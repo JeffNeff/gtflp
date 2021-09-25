@@ -59,6 +59,14 @@ Capabilities:
 
 ![](./img/bridgemore.png)
 
+* View Deployed Sources 
+
+![](./img/sourceless.png)
+
+* View info about the Sources
+
+![](./img/sourcemore.png)
+
 
 
 ## Prerequisites

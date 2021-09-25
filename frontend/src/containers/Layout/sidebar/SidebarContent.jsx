@@ -51,6 +51,11 @@ const SidebarContent = ({ onClick }) => {
             route="/Bridges"
             onClick={handleHideSidebar}
           />
+          <SidebarLink
+            title="Sources Viewer"
+            route="/Sources"
+            onClick={handleHideSidebar}
+          />
         </SidebarCategory>
       </ul>
     </div>

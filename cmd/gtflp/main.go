@@ -113,6 +113,14 @@ func main() {
 		c.FetchVerboseBridges(w, r)
 	})
 
+	c.Mux().HandleFunc("/fetchSources", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchSources(w, r)
+	})
+
+	c.Mux().HandleFunc("/fetchVerboseSources", func(w http.ResponseWriter, r *http.Request) {
+		c.FetchVerboseSources(w, r)
+	})
+
 	c.StartLoggingHandler()
 
 	ce, err := cloudevents.NewClient(t, cloudevents.WithUUIDs(), cloudevents.WithTimeNow())

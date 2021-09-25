@@ -35,6 +35,22 @@ Capabilities:
 
 ![](./img/ksvcmore.png)
 
+* View Brokers 
+
+![](./img/brokerless.png)
+
+* View info about the Brokers
+
+![](./img/brokermore.png)
+
+* View Triggers 
+
+![](./img/triggerless.png)
+
+* View info about the Triggers
+
+![](./img/triggermore.png)
+
 
 
 ## Prerequisites

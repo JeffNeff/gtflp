@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import TopbarSidebarButton from './TopbarSidebarButton';
-import TopbarProfile from './TopbarProfile';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import TopbarSidebarButton from "./TopbarSidebarButton";
+import TopbarProfile from "./TopbarProfile";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import Links from "@material-ui/core/Link";
 
 const Topbar = ({ changeMobileSidebarVisibility, changeSidebarVisibility }) => (
   <div className="topbar">
@@ -16,6 +18,16 @@ const Topbar = ({ changeMobileSidebarVisibility, changeSidebarVisibility }) => (
       </div>
       <div className="topbar__right">
         <TopbarProfile />
+        <Links
+          href="https://github.com/JeffNeff/gtflp"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <GitHubIcon />
+        </Links>
       </div>
     </div>
   </div>

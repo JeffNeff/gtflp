@@ -94,7 +94,6 @@ Capabilities:
 * [docker](https://docs.docker.com/get-started/) or [gcloud](https://cloud.google.com/sdk/docs/quickstart)
 
 ## How to use it
-
 ### Deploy from manifest
 
 1. Download the `release.yaml` from the most current [releases.](https://github.com/JeffNeff/gtflp/releases) 

@@ -1364,7 +1364,7 @@ func (c *Controller) StartLoggingHandler() {
 			for _, pod := range pds.Items {
 				msg := c.GetPodLogs(c.namespace, pod.Name, pod.Spec.Containers[0].Name, true)
 				if !ContainsLogs(c.oldLogs, msg.Message) {
-					logsManager.send(msg)
+					manager.send(msg)
 					c.oldLogs = append(c.oldLogs, msg.Message)
 				}
 				time.Sleep(time.Second * 2)

@@ -20,6 +20,9 @@ import { Button, Select, MenuItem } from "@material-ui/core";
 import createPersistedState from "use-persisted-state";
 const useCounterState = createPersistedState("count");
 const useStringState = createPersistedState("string");
+const useArrayState = createPersistedState("array");
+const useMessagesState = createPersistedState("messages");
+const usePodState = createPersistedState("pods");
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 var JSONPretty1337 = require("react-json-pretty/dist/1337");
 var JSONPrettyAcai = require("react-json-pretty/dist/acai");
@@ -27,43 +30,11 @@ var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 
 
 function LogContainer() {
-  const [messages, setMessages] = useState([]);
-  const [podNames, setPodNames] = useState([]);
+  const [messages, setMessages] = useMessagesState([]);
+  const [podNames, setPodNames] = usePodState([]);
   const [logsize, setLogsize] = useCounterState(10);
   const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
 
-  useEffect(() => {
-    console.log("Protocol: " + window.location.protocol);
-    let wsURL = "ws://" + document.location.host + "/lws";
-    if (window.location.protocol === "https:") {
-      wsURL = "wss://" + document.location.host + "/lws";
-    }
-
-    // wsURL = "ws://localhost:8080/lws"
-
-    console.log("WS URL: " + wsURL);
-    let sock = new ReconnectingWebSocket(wsURL);
-    sock.onopen = function () {
-      console.log("connected to " + wsURL);
-    };
-    sock.onclose = function (e) {
-      console.log("connection closed (" + e.code + ")");
-    };
-    // Where we get the messages from the server
-    sock.onmessage = function (e) {
-      let t = JSON.parse(e.data);
-      console.log(t);
-
-      if (podNames.includes(t.pod) == false) {
-        setPodNames(podNames.concat(t.pod));
-      }
-
-      setMessages(messages.concat(t.pod + " : " + t.message));
-    };
-    return () => {
-      sock.close();
-    };
-  });
 
   return (
     <Container>
@@ -84,6 +55,15 @@ function LogContainer() {
         }}
       >
         +
+      </Button>
+      <Button
+        label="Clear Logs"
+        onClick={() => {
+          setMessages([]);
+          setPodNames([]);
+        }}
+      >
+        Clear Events
       </Button>
       Theme: 
       <Select

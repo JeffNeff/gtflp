@@ -93,7 +93,6 @@ func (c *Controller) Mux() *http.ServeMux {
 		m := http.NewServeMux()
 		m.HandleFunc("/ui", c.RootHandler)
 		m.Handle("/ws", websocket.Handler(c.WSHandler))
-		m.Handle("/lws", websocket.Handler(c.LogsWSHandler))
 		c.mux = m
 	})
 	return c.mux

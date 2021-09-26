@@ -56,6 +56,15 @@ function LogContainer() {
       >
         +
       </Button>
+      <Button
+        label="Clear Logs"
+        onClick={() => {
+          setMessages([]);
+          setPodNames([]);
+        }}
+      >
+        Clear Events
+      </Button>
       Theme: 
       <Select
         value={themeClassName}

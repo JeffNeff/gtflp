@@ -31,13 +31,281 @@ import JSONPretty from "react-json-pretty";
 const useArrayState = createPersistedState("array");
 const useCountertate = createPersistedState("counter");
 const useStringState = createPersistedState("string");
+const useEventTypeState = createPersistedState("eventtype");
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 var JSONPretty1337 = require("react-json-pretty/dist/1337");
 var JSONPrettyAcai = require("react-json-pretty/dist/acai");
 var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 
 function Injection() {
+  const EventTypeSendgrid = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.sendgrid.email.send",
+    "datacontenttype": "application/json",
+    "data": {
+        "fromEmail": "richard@triggermesh.com",
+        "toEmail": "bob@gmail.com",
+        "fromName": "richard",
+        "toName": "bob",
+        "message": "hello",
+        "subject": "Hello Worlds"
+    }
+}`;
+  const EventTypeDataDogMetricSubmit = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.datadog.metric.submit",
+    "datacontenttype": "application/json",
+    "data": {
+        "series": [
+            {
+                "metric": "five.golang",
+                "points": [
+                    [
+                        "1614962026",
+                        "14.5"
+                    ]
+                ]
+            }
+        ]
+    }
+}`;
+  const EventTypeDataDogLogSend = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.datadog.log.send",
+    "datacontenttype": "application/json",
+    "data": {
+      "ddsource": "nginx",
+      "ddtags": "env:staging,version:5.1",
+      "hostname": "i-012345678",
+      "message": "2019-11-19T14:37:58,995 INFO Hello World",
+      "service": "payment"
+    }
+  }`;
+
+  const EventTypeDataDogEventPost = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.datadog.event.post",
+    "datacontenttype": "application/json",
+    "data": {
+        "text": "Oh boy2!",
+        "title": "Did you hear the news today?"
+    }
+}`;
+
+  const EventTypeGoogleFirestoreWrite = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.google.firestore.write",
+    "datacontenttype": "application/json",
+    "data": {
+      "collection": "eventtst",
+      "document": "doctests1",
+      "data": {
+        "fromEmail": "bob@triggermesh.com",
+        "hello": "pls"
+      }
+    }
+  }`;
+
+  const EventTypeGoogleFirestoreQueryTables = JSON.parse`{
+  "specversion": "1.0",
+  "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+  "source": "gtflp",
+  "type": "io.triggermesh.google.firestore.query.tables",
+  "datacontenttype": "application/json",
+  "data": {
+    "collection": "eventtst"
+  }
+}`;
+
+  const EventTypeGoogleFirestoreQueryTable = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.google.firestore.query.table",
+    "datacontenttype": "application/json",
+    "data": {
+      "collection": "deploydemo",
+      "document": "536808d3-88be-4077-9d7a-a3f162s705f79"
+    }
+  }`;
+
+  const EventTypeGoogleSheetAppend = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.googlesheet.append",
+    "datacontenttype": "application/json",
+    "data": {
+      "rows": [
+        "Hello from Triggermesh using GoogleSheet!",
+        "test",
+        "sheet1"
+      ],
+      "sheet_name": "Sheet1"
+    }
+  }`;
+
+  const EventTypeGoogleWorkflowsRun = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.trigermesh.google.workflows.run",
+    "datacontenttype": "application/json",
+    "data": {
+      "parent": "projects/ultra-hologram-297914/locations/us-central1/workflows/demowf",
+      "executionName": "projects/ultra-hologram-297914/locations/us-central1/workflows/demowf/executions/testex"
+    }
+  }`;
+
+  const EventTypeJiraIssueCreate = JSON.parse`{
+    "specversion": "1.0",
+    "id": "123-abc",
+    "source": "gtflp",
+    "type": "io.triggermesh.jira.issue.create",
+    "datacontenttype": "application/json",
+    "data": {
+      "fields": {
+        "project": {
+          "key": "IP"
+        },
+        "labels": [
+          "alpha",
+          "beta"
+        ],
+        "summary": "Day 30.",
+        "description": "Issue created using Triggermesh Jira Target",
+        "issuetype": {
+          "name": "Task"
+        },
+        "assignee": {
+          "accountId": "5fe0704c9edf280075f188f0"
+        }
+      }
+    }
+  }`;
+
+  const EventTypeJiraIssueGet = JSON.parse`{
+    "specversion": "1.0",
+    "id": "123-abc",
+    "source": "gtflp",
+    "type": "io.triggermesh.jira.issue.get",
+    "datacontenttype": "application/json",
+    "data": {
+      "id": "IP-9"
+    }
+  }`;
+
+  const EventTypeSalesforceApiCall = JSON.parse`{
+    "specversion": "1.0",
+    "id": "123-abc",
+    "source": "gtflp",
+    "type": "io.triggermesh.salesforce.apicall",
+    "datacontenttype": "application/json",
+    "data": {
+      "action": "POST",
+      "resource": "sobjects",
+      "object": "account",
+      "payload": {
+        "Name": "test"
+      }
+    },
+    "statefulid": "my-stateful-12345",
+    "somethingelse": "hello-world"
+  }`;
+
+  const EventTypeSlackScheudleMessage = JSON.parse`{
+    "specversion": "1.0",
+    "id": "aabbccdd11223344",
+    "source": "gtflp",
+    "type": "com.slack.webapi.chat.scheduleMessage",
+    "datacontenttype": "application/json",
+    "data": {
+      "channel": "C01112A09FT",
+      "text": "Hello from scheduled Triggermesh!",
+      "post_at": 1593430770
+    }
+  }`;
+
+  const EventTypeSlackChatUpdate = JSON.parse`{
+    "specversion": "1.0",
+    "id": "aabbccdd11223344",
+    "source": "gtflp",
+    "type": "com.slack.webapi.chat.update",
+    "datacontenttype": "application/json",
+    "data": {
+      "channel": "C01112A09FT",
+      "text": "Hello from updated2 Triggermesh!",
+      "ts": "1593430770.001300"
+    }
+  }`;
+  
+
+  const EventTypeTwilioSMSSend = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "io.triggermesh.twilio.sms.send",
+    "datacontenttype": "application/json",
+    "data": {
+      "message": "Hello from Triggermesh using Twilio!",
+      "to": "+1111111111"
+    }
+  }`;
+
+  const EventTypeZendeskTicketCreate = JSON.parse`{
+    "specversion": "1.0",
+    "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+    "source": "gtflp",
+    "type": "com.zendesk.ticket.create",
+    "datacontenttype": "application/json",
+    "data": {
+      "subject": "Hello",
+      "body": "World"
+    }
+  }`;
+
+  const EventTypeZendeskTagCreate = JSON.parse`{
+  "specversion": "1.0",
+  "id": "536808d3-88be-4077-9d7a-a3f162705f79",
+  "source": "gtflp",
+  "type": "com.zendesk.tag.create",
+  "datacontenttype": "application/json",
+  "data": {
+    "id": 81,
+    "tag": "triggermesh"
+  }
+}`;
+
   const [services, setServices] = useState([]);
+  const [eventTypes, setEventTypes] = useEventTypeState([
+    EventTypeDataDogMetricSubmit,
+    EventTypeDataDogEventPost,
+    EventTypeDataDogLogSend,
+    EventTypeSendgrid,
+    EventTypeGoogleFirestoreWrite,
+    EventTypeGoogleFirestoreQueryTables,
+    EventTypeGoogleFirestoreQueryTable,
+    EventTypeGoogleSheetAppend,
+    EventTypeGoogleWorkflowsRun,
+    EventTypeJiraIssueCreate,
+    EventTypeJiraIssueGet,
+    EventTypeSalesforceApiCall,
+    EventTypeSlackScheudleMessage,
+    EventTypeSlackChatUpdate,
+    EventTypeTwilioSMSSend,
+    EventTypeZendeskTicketCreate,
+    EventTypeZendeskTagCreate,
+  ]);
   const [events, setEvents] = useArrayState([]);
   const [logsize, setLogsize] = useCountertate(10);
   const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
@@ -50,16 +318,22 @@ function Injection() {
   const corsOptions = {
     origin: "*",
   };
-  
+
+  // eventTypes.map((eventType) => {
+  // console.log("ETTTT")
+  // console.log(eventType.id)
+  // })
+
   const onClickFocus = (e) => {
     const it = JSON.parse(e.target.innerText);
+    console.log(e);
     setID(it.id);
-    setType(it.type)
-    setSource(it.source)
-    setContenttype(it.contenttype)
-    setData(JSON.stringify(it.data))
+    setType(it.type);
+    setSource(it.source);
+    setContenttype(it.contenttype);
+    setData(JSON.stringify(it.data));
   };
-  
+
   function fetchServices() {
     axios
       .post("/queryservices", {}, corsOptions)
@@ -72,6 +346,25 @@ function Injection() {
       });
   }
 
+  function handleEventLibrarySelection(event) {
+    console.log(event);
+    setID(event.id);
+    setType(event.type);
+    setSource(event.source);
+    setContenttype(event.contenttype);
+    setData(JSON.stringify(event.data));
+  }
+
+  function handleAddEventToLibrary(e) {
+    const newEvent = {
+      id: id,
+      type: type,
+      source: source,
+      contenttype: contenttype,
+      data: data,
+    };
+    setEventTypes(eventTypes.concat(newEvent));
+  }
 
   const handleInjection = (event) => {
     axios
@@ -193,11 +486,7 @@ function Injection() {
               </FormControl>
             </TableRow>
             <TableRow>
-              <Button
-                onClick={fetchServices}
-              >
-                Refresh Destinations
-              </Button>
+              <Button onClick={fetchServices}>Refresh Destinations</Button>
             </TableRow>
             <p1 class="pure-form"> Custom Destination: </p1>
             <TableRow>
@@ -219,6 +508,16 @@ function Injection() {
                 />
               </FormControl>
             </TableRow>
+            Event Library:
+            <Select
+              // value={themeClassName}
+              onChange={(e) => handleEventLibrarySelection(e.target.value)}
+            >
+              {eventTypes.map((eventType) => (
+                <MenuItem value={eventType}>{eventType.type}</MenuItem>
+              ))}
+            </Select>
+            <Button onClick={handleAddEventToLibrary}>Add Current</Button>
             <TableRow>
               <FormControl class="pure-form">
                 <Button

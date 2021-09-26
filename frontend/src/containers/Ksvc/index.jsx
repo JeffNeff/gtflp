@@ -15,7 +15,7 @@
 import React, { useEffect } from "react";
 import createPersistedState from "use-persisted-state";
 import { Button, Select, MenuItem } from "@material-ui/core";
-import { Container, Row } from "reactstrap";
+import { Container } from "reactstrap";
 import axios from "axios";
 import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
@@ -49,7 +49,7 @@ function Ksvc() {
     fetchPods();
     return () => {
     };
-  }, []);
+  }, );
 
   return (
     <Container>

@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Container, Row } from "reactstrap";
 import LogCard from "./components/LogCard";
-import ReconnectingWebSocket from "reconnecting-websocket";
 import { Button, Select, MenuItem } from "@material-ui/core";
 import createPersistedState from "use-persisted-state";
 const useCounterState = createPersistedState("count");
 const useStringState = createPersistedState("string");
-const useArrayState = createPersistedState("array");
 const useMessagesState = createPersistedState("messages");
 const usePodState = createPersistedState("pods");
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");

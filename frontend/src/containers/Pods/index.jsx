@@ -48,7 +48,8 @@ function Pods() {
 
   useEffect(() => {
     fetchPods();
-  }, );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
@@ -94,7 +95,7 @@ function Pods() {
       >
         Less Info
       </Button>
-      Theme: 
+      Theme:
       <Select
         value={themeClassName}
         onChange={(e) => setThemeClassName(e.target.value)}

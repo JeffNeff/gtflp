@@ -25,7 +25,6 @@ var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 const useCounterState = createPersistedState("count");
 const useStringState = createPersistedState("string");
 
-
 function Triggers() {
   const [triggers, setTriggers] = React.useState([]);
   const [logsize, setLogsize] = useCounterState(10);
@@ -49,7 +48,8 @@ function Triggers() {
 
   useEffect(() => {
     fetchTriggers();
-  }, );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>

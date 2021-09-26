@@ -12,26 +12,91 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Row } from "reactstrap";
-import { Button, Select, MenuItem} from "@material-ui/core";
+import {
+  Button,
+  Select,
+  MenuItem,
+  TextField,
+  TableRow,
+  FormControl,
+  TableBody,
+} from "@material-ui/core";
+import axios from "axios";
+import { TextArea } from "grommet";
 import { Card, CardBody, Col } from "reactstrap";
-import InjectionPod from "./components/Injection";
 import createPersistedState from "use-persisted-state";
+import JSONPretty from "react-json-pretty";
 const useArrayState = createPersistedState("array");
 const useCountertate = createPersistedState("counter");
 const useStringState = createPersistedState("string");
-import ReconnectingWebSocket from "reconnecting-websocket";
-import JSONPretty from "react-json-pretty";
 var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 var JSONPretty1337 = require("react-json-pretty/dist/1337");
 var JSONPrettyAcai = require("react-json-pretty/dist/acai");
 var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 
 function Injection() {
+  const [services, setServices] = useState([]);
   const [events, setEvents] = useArrayState([]);
   const [logsize, setLogsize] = useCountertate(10);
   const [themeClassName, setThemeClassName] = useStringState(JSONPrettyMon);
+  const [id, setID] = React.useState("0123211");
+  const [type, setType] = React.useState("test.type");
+  const [source, setSource] = React.useState("test.source");
+  const [contenttype, setContenttype] = React.useState("application/json");
+  const [data, setData] = React.useState('{"test":"data"}');
+  const [destination, setDestination] = React.useState();
+  const corsOptions = {
+    origin: "*",
+  };
+  
+  const onClickFocus = (e) => {
+    const it = JSON.parse(e.target.innerText);
+    setID(it.id);
+    setType(it.type)
+    setSource(it.source)
+    setContenttype(it.contenttype)
+    setData(JSON.stringify(it.data))
+  };
+  
+  function fetchServices() {
+    axios
+      .post("/queryservices", {}, corsOptions)
+      .then((response) => {
+        console.log(response.data);
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
+  const handleInjection = (event) => {
+    axios
+      .post(
+        "/inject",
+        {
+          destination,
+          data,
+          headers: {
+            "Ce-Id": id,
+            "Ce-Specversion": "1.0",
+            "Ce-Type": type,
+            "Ce-Source": source,
+            "Content-Type": contenttype,
+          },
+        },
+        corsOptions
+      )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <Container>
@@ -61,7 +126,7 @@ function Injection() {
       >
         Clear Events
       </Button>
-     Theme: 
+      Theme:
       <Select
         value={themeClassName}
         onChange={(e) => setThemeClassName(e.target.value)}
@@ -72,8 +137,101 @@ function Injection() {
         <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
       </Select>
       <Row style={{ paddingLeft: 20 }}>
-        <InjectionPod />
-        <Row></Row>
+        <Row>
+          <TableBody class="pure-form">
+            <TableRow class="pure-form">
+              <FormControl>
+                ID:
+                <TextField
+                  class="pure-form"
+                  id="input-injection-ceid"
+                  value={id}
+                  onChange={(e) => setID(e.target.value)}
+                />
+              </FormControl>
+            </TableRow>
+            <TableRow>
+              <FormControl>
+                Type
+                <TextField
+                  class="pure-form"
+                  id="input-injection-type"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                />
+              </FormControl>
+            </TableRow>
+            <TableRow>
+              Source
+              <FormControl class="pure-form">
+                <TextField
+                  id="input-injection-source"
+                  value={source}
+                  onChange={(e) => setSource(e.target.value)}
+                />
+              </FormControl>
+            </TableRow>
+            <TableRow>
+              Content-Type
+              <FormControl class="pure-form">
+                <TextField
+                  label=""
+                  id="input-injection-contenttype"
+                  value={contenttype}
+                  onChange={(e) => setContenttype(e.target.value)}
+                />
+              </FormControl>
+            </TableRow>
+            <p1 class="pure-form"> Avalible Destinations: </p1>
+            <TableRow>
+              <FormControl style={{ width: "190px" }}>
+                <Select onChange={(e) => setDestination(e.target.value)}>
+                  {services.map((data, index) => (
+                    <MenuItem value={data}>{data}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </TableRow>
+            <TableRow>
+              <Button
+                onClick={fetchServices}
+              >
+                Refresh Destinations
+              </Button>
+            </TableRow>
+            <p1 class="pure-form"> Custom Destination: </p1>
+            <TableRow>
+              <FormControl class="pure-form">
+                <TextField
+                  id="input-injection-add"
+                  onChange={(e) => setDestination(e.target.value)}
+                />
+              </FormControl>
+            </TableRow>
+            <TableRow>
+              <FormControl class="pure-form">
+                Data:
+                <TextArea
+                  resize="true"
+                  id="input-injection-data"
+                  value={data}
+                  onChange={(e) => setData(e.target.value)}
+                />
+              </FormControl>
+            </TableRow>
+            <TableRow>
+              <FormControl class="pure-form">
+                <Button
+                  id="input-injection-button"
+                  label="Submit"
+                  onClick={handleInjection}
+                >
+                  Send
+                </Button>
+              </FormControl>
+            </TableRow>
+          </TableBody>
+        </Row>
       </Row>
       <Row>
         {events.map((event, index) => {
@@ -90,6 +248,7 @@ function Injection() {
                       }}
                     >
                       <JSONPretty
+                        onClick={onClickFocus}
                         style={{ fontSize: logsize }}
                         json={event}
                         theme={themeClassName}

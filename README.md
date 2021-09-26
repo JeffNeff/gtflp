@@ -16,6 +16,7 @@ Capabilities:
 ![](./img/ls.png)
 
 * Monitor and Inject Cloudevents : Inject &| view events that are sent directly to the `gtflp` deployment, or configured triggers.
+*note:* One can populate the Injection values by clicking a recieved event, allowing users to re-play cloudevents.
 
 ![](./img/ce.png)
 

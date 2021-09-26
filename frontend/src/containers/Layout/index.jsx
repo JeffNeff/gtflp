@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import classNames from "classnames";
 import Topbar from "./topbar/Topbar";
 import Sidebar from "./sidebar/Sidebar";
-
 import createPersistedState from "use-persisted-state";
 import ReconnectingWebSocket from "reconnecting-websocket";
 const useArrayState = createPersistedState("array");
@@ -31,14 +30,6 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    // this is not working
-    window.addEventListener("beforeunload", (event) => {
-      // Cancel the event as stated by the standard.
-      event.preventDefault();
-      onClose();
-      // Chrome requires returnValue to be set.
-      event.returnValue = "";
-    });
 
     console.log("Protocol: " + window.location.protocol);
     let wsURL = "ws://" + document.location.host + "/ws";
@@ -46,6 +37,9 @@ const Layout = () => {
     if (window.location.protocol === "https:") {
       wsURL = "wss://" + document.location.host + "/ws";
     }
+
+    // for yarn start development uncomment this
+    // wsURL = "ws://localhost:8080/ws"
 
     console.log("WS URL: " + wsURL);
     let sock = new ReconnectingWebSocket(wsURL);

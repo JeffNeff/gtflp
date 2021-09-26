@@ -63,7 +63,7 @@ function LogContainer() {
           setPodNames([]);
         }}
       >
-        Clear Events
+        Clear Logs
       </Button>
       Theme: 
       <Select

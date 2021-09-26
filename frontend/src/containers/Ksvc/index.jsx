@@ -47,9 +47,9 @@ function Ksvc() {
 
   useEffect(() => {
     fetchPods();
-    return () => {
-    };
-  }, );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
@@ -95,7 +95,7 @@ function Ksvc() {
       >
         Less Info
       </Button>
-      Theme: 
+      Theme:
       <Select
         value={themeClassName}
         onChange={(e) => setThemeClassName(e.target.value)}

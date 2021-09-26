@@ -25,7 +25,6 @@ var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 const useCounterState = createPersistedState("count");
 const useStringState = createPersistedState("string");
 
-
 function Brokers() {
   const [brokers, setBrokers] = React.useState([]);
   const [logsize, setLogsize] = useCounterState(10);
@@ -48,7 +47,8 @@ function Brokers() {
 
   useEffect(() => {
     fetchBrokers();
-  }, );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
@@ -94,7 +94,7 @@ function Brokers() {
       >
         Less Info
       </Button>
-      Theme: 
+      Theme:
       <Select
         value={themeClassName}
         onChange={(e) => setThemeClassName(e.target.value)}

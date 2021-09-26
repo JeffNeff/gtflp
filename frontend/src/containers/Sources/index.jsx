@@ -25,7 +25,6 @@ var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
 const useCounterState = createPersistedState("count");
 const useStringState = createPersistedState("string");
 
-
 function Sources() {
   const [sources, setSources] = React.useState([]);
   const [logsize, setLogsize] = useCounterState(10);
@@ -34,14 +33,15 @@ function Sources() {
   const corsOptions = {
     origin: "*",
   };
-  function fetchSources() {
-    axios.get("/fetchSources", corsOptions).then((response) => {
+
+  function fetchMoreInfo() {
+    axios.get("/fetchVerboseSources", corsOptions).then((response) => {
       console.log(response.data);
       setSources(response.data);
     });
   }
-  function fetchMoreInfo() {
-    axios.get("/fetchVerboseSources", corsOptions).then((response) => {
+  function fetchSources() {
+    axios.get("/fetchSources", corsOptions).then((response) => {
       console.log(response.data);
       setSources(response.data);
     });
@@ -49,7 +49,8 @@ function Sources() {
 
   useEffect(() => {
     fetchSources();
-  }, );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import JSONPretty from "react-json-pretty";
 import { Card, CardBody, Col } from "reactstrap";
 
@@ -30,7 +30,7 @@ function LogCard(props) {
               // check to see if the pod contains the name `gtflp`
               let check = message.search("gtflp");
               if (check > -1) {
-                return;
+                return null;
               }
               let podname = message.substring(0, sr);
               // get the log message

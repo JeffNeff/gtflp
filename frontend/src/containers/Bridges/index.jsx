@@ -48,7 +48,7 @@ function Bridges() {
 
   useEffect(() => {
     fetchBridges();
-  }, []);
+  }, );
 
   return (
     <Container>

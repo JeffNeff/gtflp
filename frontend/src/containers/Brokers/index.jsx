@@ -48,7 +48,7 @@ function Brokers() {
 
   useEffect(() => {
     fetchBrokers();
-  }, []);
+  }, );
 
   return (
     <Container>
@@ -108,7 +108,6 @@ function Brokers() {
         style={{ fontSize: logsize }}
         data={brokers}
         theme={themeClassName}
-        // themeClassName="1337"
       />
     </Container>
   );

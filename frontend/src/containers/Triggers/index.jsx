@@ -49,7 +49,7 @@ function Triggers() {
 
   useEffect(() => {
     fetchTriggers();
-  }, []);
+  }, );
 
   return (
     <Container>

@@ -34,6 +34,7 @@
     "sass": "^1.41.1",
     "smooth-scrollbar": "^8.5.3",
     "styled-components": "^5.3.1",
+    "use-dynamic-refs": "^1.0.0",
     "use-persisted-state": "^0.3.3"
   },
   "devDependencies": {

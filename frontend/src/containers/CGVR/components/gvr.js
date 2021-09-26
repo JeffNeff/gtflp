@@ -20,9 +20,8 @@ import {
   Button,
   TableBody,
 } from "@material-ui/core";
-const axios = require("axios");
 import JSONPretty from "react-json-pretty";
-
+const axios = require("axios");
 
 export default function GVR(props) {
   const [group, setGroup] = useState("eventing.knative.dev");

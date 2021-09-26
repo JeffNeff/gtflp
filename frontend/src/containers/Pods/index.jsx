@@ -48,7 +48,7 @@ function Pods() {
 
   useEffect(() => {
     fetchPods();
-  }, []);
+  }, );
 
   return (
     <Container>

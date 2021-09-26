@@ -49,7 +49,7 @@ function Sources() {
 
   useEffect(() => {
     fetchSources();
-  }, []);
+  }, );
 
   return (
     <Container>

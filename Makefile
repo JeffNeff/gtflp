@@ -17,6 +17,8 @@ help:
 	@echo "debug : Build the static files and start gtflp with the kodata env variable eg:  KO_DATA_PATH=cmd/gtflp/kodata/ go run ./cmd/gtflp "
 	@echo
 	@echo "image : Releases a new image to the gcloud distro repo"
+	@echo
+	@echo "run : Run without building"
 
 update-static:
 	@cd cmd/gtflp && rm -rf kodata 
@@ -28,6 +30,7 @@ release:
 
 debug:
 	@make update-static
+	@KO_DATA_PATH=cmd/gtflp/kodata/ DEV=true go run ./cmd/gtflp
 	
 run:
 	@KO_DATA_PATH=cmd/gtflp/kodata/ DEV=true go run ./cmd/gtflp

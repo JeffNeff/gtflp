@@ -1206,7 +1206,7 @@ func (c *Controller) FetchVerboseSources(w http.ResponseWriter, r *http.Request)
 func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	json.NewEncoder(w).Encode("OKOK")
+	// json.NewEncoder(w).Encode("OKOK")
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -1237,15 +1237,12 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	eventToSend.SetData(cloudevents.ApplicationJSON, jsonMap)
 
 	ctx := cloudevents.ContextWithTarget(context.Background(), ip.Destination)
-	if result := c.ceClient.Send(ctx, eventToSend); cloudevents.IsUndelivered(result) {
-		fmt.Println("failed to send, %v", result)
-		json.NewEncoder(w).Encode(fmt.Sprintf("failed to send, %v", result))
-		return
-	}
+	result := c.ceClient.Send(ctx, eventToSend)
 
 	fmt.Println("sent Event to: %v", ip.Destination)
 	fmt.Println("")
 	fmt.Println(eventToSend)
+	json.NewEncoder(w).Encode(result)
 }
 
 // FetchCGVR is a handler to return a list of  about a provided GVR in the current namespace

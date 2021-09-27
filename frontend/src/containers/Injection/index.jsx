@@ -391,7 +391,11 @@ function Injection() {
       )
       .then(function (response) {
         console.log(response);
-      })
+        if (response.data.StatusCode === 200){
+          alert("Success")
+        }else{
+         alert("Injection failed")
+      }})
       .catch(function (error) {
         console.log(error);
       });

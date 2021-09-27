@@ -6,9 +6,12 @@
                                  \___  /|__|  |__|  |____/   __/ 
                                 /_____/                  |__|    
 
+
 ## What it is
 
 `gtfp` is a tool for debugging pods and cloudevents.
+
+Join the [Discord](https://discord.gg/BTqzsWHh9R) for help or to chat! 
 
 Capabilities:
 * Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor pod logs in a single window. 

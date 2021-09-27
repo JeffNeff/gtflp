@@ -1222,14 +1222,21 @@ func (c *Controller) InjectionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	eventToSend := cloudevents.NewEvent()
+	var jsonMap map[string]interface{}
+	json.Unmarshal([]byte(ip.Data), &jsonMap)
+	if err != nil {
+		fmt.Println("Error occured marshaling data: %v", err)
+		json.NewEncoder(w).Encode("Failure marshaling data")
+		return
+	}
+
 	eventToSend.SetType(ip.Headers.CeType)
 	eventToSend.SetSource(ip.Headers.CeSource)
 	eventToSend.SetID(ip.Headers.CeID)
 	eventToSend.SetDataContentType(ip.Headers.ContentType)
-	eventToSend.SetData(cloudevents.ApplicationJSON, ip.Data)
+	eventToSend.SetData(cloudevents.ApplicationJSON, jsonMap)
 
 	ctx := cloudevents.ContextWithTarget(context.Background(), ip.Destination)
-
 	if result := c.ceClient.Send(ctx, eventToSend); cloudevents.IsUndelivered(result) {
 		fmt.Println("failed to send, %v", result)
 		json.NewEncoder(w).Encode(fmt.Sprintf("failed to send, %v", result))

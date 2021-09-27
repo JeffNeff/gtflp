@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row } from "reactstrap";
 import {
   Button,
@@ -366,6 +366,12 @@ function Injection() {
     setEventTypes(eventTypes.concat(newEvent));
   }
 
+  useEffect(() => {
+    fetchServices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   const handleInjection = (event) => {
     axios
       .post(
@@ -521,6 +527,7 @@ function Injection() {
             <TableRow>
               <FormControl class="pure-form">
                 <Button
+                
                   id="input-injection-button"
                   label="Submit"
                   onClick={handleInjection}

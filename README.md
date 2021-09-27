@@ -12,7 +12,9 @@
 `gtfp` is a tool for debugging pods and cloudevents.
 
 Capabilities:
+
 Join the [Discord](https://discord.gg/BTqzsWHh9R) for help or to chat! 
+
 * Logging : Stream the logs from pods in the same namespace as the `gtflp` deployment. Allowing you to monitor pod logs in a single window. 
 
 ![](./img/ls.png)

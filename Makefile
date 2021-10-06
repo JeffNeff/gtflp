@@ -28,6 +28,7 @@ release:
 
 debug:
 	@make update-static
+	@KO_DATA_PATH=cmd/gtflp/kodata/ DEV=true go run ./cmd/gtflp
 	
 run:
 	@KO_DATA_PATH=cmd/gtflp/kodata/ DEV=true go run ./cmd/gtflp

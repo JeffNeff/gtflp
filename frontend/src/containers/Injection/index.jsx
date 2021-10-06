@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import React, { useState, useEffect } from "react";
-import { Container, Row } from "reactstrap";
+import { Container, Row, Button} from "reactstrap";
 import {
-  Button,
+ 
   Select,
   MenuItem,
   TextField,
@@ -28,6 +28,7 @@ import { TextArea } from "grommet";
 import { Card, CardBody, Col } from "reactstrap";
 import createPersistedState from "use-persisted-state";
 import JSONPretty from "react-json-pretty";
+import "../../scss/app.scss";
 const useArrayState = createPersistedState("array");
 const useCountertate = createPersistedState("counter");
 const useStringState = createPersistedState("string");
@@ -36,6 +37,7 @@ var JSONPrettyMon = require("react-json-pretty/dist/monikai");
 var JSONPretty1337 = require("react-json-pretty/dist/1337");
 var JSONPrettyAcai = require("react-json-pretty/dist/acai");
 var JSONPrettyAdv = require("react-json-pretty/dist/adventure_time");
+
 
 function Injection() {
   const EventTypeSendgrid = JSON.parse`{
@@ -400,8 +402,8 @@ function Injection() {
   return (
     <Container>
       <h3 className="page-title">Cloudevents:</h3>
-      <h5> Monitor and inject Cloudevents here! </h5>
-      <Button
+      <h5  style={{ marginBottom: 30}}> Monitor and inject Cloudevents here! </h5>
+      <Button color="secondary"
         label="-"
         onClick={() => {
           setLogsize(logsize - 5);
@@ -409,7 +411,7 @@ function Injection() {
       >
         -
       </Button>
-      <Button
+      <Button color="secondary"
         label="+"
         onClick={() => {
           setLogsize(logsize + 5);
@@ -417,7 +419,7 @@ function Injection() {
       >
         +
       </Button>
-      <Button
+      <Button  color="primary"
         label="Clear Events"
         onClick={() => {
           setEvents([]);
@@ -435,44 +437,51 @@ function Injection() {
         <MenuItem value={JSONPrettyAcai}>acai</MenuItem>
         <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
       </Select>
-      <Row style={{ paddingLeft: 20 }}>
-        <Row>
-          <TableBody class="pure-form">
-            <TableRow class="pure-form">
+      <Row style={{ marginBottom: 30}}>
+          <Col md={4}>
+            <div class="pure-form">
               <FormControl>
                 ID:
                 <TextField
-                  class="pure-form"
+                  class="cloud-input pure-form"
                   id="input-injection-ceid"
                   value={id}
                   onChange={(e) => setID(e.target.value)}
                 />
               </FormControl>
-            </TableRow>
-            <TableRow>
+            </div>
+            </Col>
+            
+          <Col md={4}>
+          <div class="pure-form">
               <FormControl>
                 Type
                 <TextField
-                  class="pure-form"
+                  class="cloud-input pure-form"
                   id="input-injection-type"
                   value={type}
                   onChange={(e) => setType(e.target.value)}
                 />
               </FormControl>
-            </TableRow>
-            <TableRow>
+              </div>
+            </Col>
+            <Col md={4}>
+            </Col>
+            </Row>
+            <Row style={{ marginBottom: 30}}>
+            <Col md={3}>
               Source
-              <FormControl class="pure-form">
+              <FormControl class="cloud-input pure-form">
                 <TextField
                   id="input-injection-source"
                   value={source}
                   onChange={(e) => setSource(e.target.value)}
                 />
               </FormControl>
-            </TableRow>
-            <TableRow>
+            </Col>
+              <Col md={3}>
               Content-Type
-              <FormControl class="pure-form">
+              <FormControl class="cloud-input pure-form">
                 <TextField
                   label=""
                   id="input-injection-contenttype"
@@ -480,9 +489,10 @@ function Injection() {
                   onChange={(e) => setContenttype(e.target.value)}
                 />
               </FormControl>
-            </TableRow>
+            </Col>
+          <Col md={3}>
             <p1 class="pure-form"> Avalible Destinations: </p1>
-            <TableRow>
+            <div>
               <FormControl style={{ width: "190px" }}>
                 <Select onChange={(e) => setDestination(e.target.value)}>
                   {services.map((data, index) => (
@@ -490,55 +500,73 @@ function Injection() {
                   ))}
                 </Select>
               </FormControl>
-            </TableRow>
-            <TableRow>
-              <Button onClick={fetchServices}>Refresh Destinations</Button>
-            </TableRow>
-            <p1 class="pure-form"> Custom Destination: </p1>
-            <TableRow>
-              <FormControl class="pure-form">
-                <TextField
-                  id="input-injection-add"
-                  onChange={(e) => setDestination(e.target.value)}
-                />
-              </FormControl>
-            </TableRow>
-            <TableRow>
-              <FormControl class="pure-form">
-                Data:
-                <TextArea
-                  resize="true"
-                  id="input-injection-data"
-                  value={data}
-                  onChange={(e) => setData(e.target.value)}
-                />
-              </FormControl>
-            </TableRow>
-            Event Library:
-            <Select
-              // value={themeClassName}
-              onChange={(e) => handleEventLibrarySelection(e.target.value)}
-            >
-              {eventTypes.map((eventType) => (
-                <MenuItem value={eventType}>{eventType.type}</MenuItem>
-              ))}
-            </Select>
-            <Button onClick={handleAddEventToLibrary}>Add Current</Button>
-            <TableRow>
-              <FormControl class="pure-form">
-                <Button
-                
-                  id="input-injection-button"
-                  label="Submit"
-                  onClick={handleInjection}
-                >
-                  Send
-                </Button>
-              </FormControl>
-            </TableRow>
-          </TableBody>
-        </Row>
-      </Row>
+            </div>
+              </Col>
+            </Row>
+
+
+            <Row style={{ marginBottom: 30}}>
+<Col md={12}>
+  <Button  color="primary" onClick={fetchServices}>Refresh Destinations</Button>
+  </Col>
+
+  <Col md={12}  style={{ marginBottom: 30}}>
+    <p1 class="pure-form"> Custom Destination: </p1>
+    <FormControl class="cloud-input pure-form">
+      <TextField
+        id="input-injection-add"
+        onChange={(e) => setDestination(e.target.value)}
+      />
+    </FormControl>
+    
+    </Col>
+  <Col md={6}  style={{ marginBottom: 30}}>
+    <FormControl class="pure-form">
+      Data:
+      <TextArea
+        resize="true"
+        id="input-injection-data"
+        value={data}
+        onChange={(e) => setData(e.target.value)}
+      />
+    </FormControl>
+
+      </Col>
+      <Col md={12}  style={{ marginBottom: 30}}>
+        Event Library:
+        <Select
+          // value={themeClassName}
+          onChange={(e) => handleEventLibrarySelection(e.target.value)}
+        >
+          {eventTypes.map((eventType) => (
+            <MenuItem value={eventType}>{eventType.type}</MenuItem>
+          ))}
+        </Select>
+
+  </Col>
+
+  <Col md={12}>
+            <Button  color="primary" onClick={handleAddEventToLibrary}>Add Current</Button>
+
+          </Col>
+
+          <Col md={12}>
+            <FormControl class="pure-form">
+              <Button  color="success btn-lg"
+              
+                id="input-injection-button"
+                label="Submit"
+                onClick={handleInjection}
+              >
+                Send
+              </Button>
+            </FormControl>
+    </Col>
+            
+  
+  </Row>
+      
+      
       <Row>
         {events.map((event, index) => {
           return (

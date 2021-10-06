@@ -437,8 +437,8 @@ function Injection() {
         <MenuItem value={JSONPrettyAcai}>acai</MenuItem>
         <MenuItem value={JSONPrettyAdv}>adv</MenuItem>
       </Select>
-      <Row style={{ marginBottom: 30}}>
-          <Col md={4}>
+      <Row style={{ marginBottom: 10}}>
+          <Col md={12}>
             <div class="pure-form">
               <FormControl>
                 ID:
@@ -452,7 +452,7 @@ function Injection() {
             </div>
             </Col>
             
-          <Col md={4}>
+          <Col md={12}>
           <div class="pure-form">
               <FormControl>
                 Type
@@ -469,7 +469,7 @@ function Injection() {
             </Col>
             </Row>
             <Row style={{ marginBottom: 30}}>
-            <Col md={3}>
+            <Col md={12}  style={{ marginBottom: 10}}>
               Source
               <FormControl class="cloud-input pure-form">
                 <TextField
@@ -479,7 +479,7 @@ function Injection() {
                 />
               </FormControl>
             </Col>
-              <Col md={3}>
+              <Col md={12}  style={{ marginBottom: 10}}>
               Content-Type
               <FormControl class="cloud-input pure-form">
                 <TextField
@@ -490,7 +490,7 @@ function Injection() {
                 />
               </FormControl>
             </Col>
-          <Col md={3}>
+          <Col md={12}>
             <p1 class="pure-form"> Avalible Destinations: </p1>
             <div>
               <FormControl style={{ width: "190px" }}>
@@ -505,7 +505,7 @@ function Injection() {
             </Row>
 
 
-            <Row style={{ marginBottom: 30}}>
+            <Row style={{ marginBottom: 10}}>
 <Col md={12}>
   <Button  color="primary" onClick={fetchServices}>Refresh Destinations</Button>
   </Col>
